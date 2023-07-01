@@ -2,6 +2,8 @@
 import { navLinks } from '@/data/navLinks';
 import { usePathname } from 'next/navigation';
 import ActiveNavLinks from './activeNavLinks';
+import { user } from '@/data/fakeData';
+import { ProfileIcon } from '../profile_icon/profileIcon';
 
 export function Navbar() {
   // variables
@@ -23,10 +25,13 @@ export function Navbar() {
         ))}
       </div>
       {/* profile icons */}
-
-      <button className='py-1 px-2 bg-orange-50 text-orange-600 rounded-md hover:bg-orange-100 animation'>
-        Login
-      </button>
+      {user ? (
+        <ProfileIcon image={user.image} />
+      ) : (
+        <button className='py-1 px-2 bg-orange-50 text-orange-600 rounded-md hover:bg-orange-100 animation'>
+          Login
+        </button>
+      )}
     </nav>
   );
 }
