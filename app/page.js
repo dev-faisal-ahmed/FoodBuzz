@@ -1,7 +1,9 @@
+import { Hero } from '@/components/home_page/hero';
+
 export default function Home() {
   return (
-    <main className=''>
-      <h1>Project Initiated</h1>
-    </main>
+    <section className='py-5'>
+      <Hero />
+    </section>
   );
 }
