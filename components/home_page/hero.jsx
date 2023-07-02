@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export function Hero() {
   return (
-    <div className='bg-primary-500 text-white px-12 lg:py-5 py-8 lg:flex justify-between items-center rounded-2xl'>
+    <section className='bg-primary-500 text-white px-12 lg:py-5 py-8 lg:flex justify-between items-center rounded-2xl mb-8'>
       <div className='flex-grow text-center lg:text-start'>
         <h1 className='text-3xl font-semibold'>
           Enjoy Our Service in 205 Areas.
@@ -20,7 +20,7 @@ export function Hero() {
           Discover
         </Link>
       </div>
-      <div className='g_lg:w-[60%] 2xl:w-[35%] hidden g_lg:block'>
+      <div className='lg:w-[60%] 2xl:w-[35%] hidden lg:block'>
         <Image
           className='w-full'
           src={'/image/hero.png'}
@@ -29,6 +29,6 @@ export function Hero() {
           alt='Hero'
         />
       </div>
-    </div>
+    </section>
   );
 }

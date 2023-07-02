@@ -8,10 +8,16 @@
 
 /* Hide scrollbar for all browsers */
 * {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 ::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
+  display: none;
+}
+
+@layer components {
+  .animation {
+    @apply duration-300 transition-all ease-in-out;
+  }
 }
