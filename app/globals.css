@@ -16,8 +16,26 @@
   display: none;
 }
 
+.modal {
+  background: rgba(122, 122, 122, 0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100svh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 150;
+}
 @layer components {
   .animation {
     @apply duration-300 transition-all ease-in-out;
+  }
+  .center-y {
+    @apply flex items-center;
+  }
+  .center-xy {
+    @apply flex items-center justify-center;
   }
 }

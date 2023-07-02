@@ -1,5 +1,5 @@
 'use client';
-export function ProfileIcon({ image, size }) {
+export function ProfileIcon({ image, size, margin }) {
   return (
     <div
       style={{
@@ -9,6 +9,7 @@ export function ProfileIcon({ image, size }) {
         borderRadius: '50%',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
+        margin: margin || 0,
       }}
     >
       &nbsp;
