@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 export function NavMobile() {
   const currentLink = usePathname();
   return (
-    <nav className='flex items-center justify-center gap-5 bg-white shadow-md'>
+    <nav className='flex items-center justify-center gap-5 bg-white shadow-md py-2'>
       {navLinks.map((link, index) => (
         <ActiveNavLinks
           key={index}
