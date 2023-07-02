@@ -1,6 +1,8 @@
 export const user = {
-  name: 'Faisal Ahmed',
+  firstName: 'Faisal',
+  lastName: 'Ahmed',
   image: 'https://i.ibb.co/rbBnRL5/faisal-ahmed.jpg',
+  address: 'Mirpur-13, Dhaka',
 };
 
 export const categories = [
@@ -12,6 +14,23 @@ export const categories = [
   'chicken',
 ];
 
+export const orders = [
+  {
+    orderTitle: 'Hamburger + Cheese Burger + Biriyani',
+    price: 1625,
+    status: 'pending',
+  },
+  {
+    orderTitle: 'Large Pizza + Doi Fuchka',
+    price: 786,
+    status: 'delivered',
+  },
+  {
+    orderTitle: 'Hamburger + Cheese Burger + Biriyani',
+    price: 1625,
+    status: 'pending',
+  },
+];
 export const foods = [
   {
     title: 'Cheese Burger',

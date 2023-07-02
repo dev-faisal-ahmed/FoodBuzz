@@ -20,4 +20,10 @@
   .animation {
     @apply duration-300 transition-all ease-in-out;
   }
+  .center-y {
+    @apply flex items-center;
+  }
+  .center-xy {
+    @apply flex items-center justify-center;
+  }
 }

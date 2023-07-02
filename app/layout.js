@@ -6,6 +6,7 @@ import { Logo } from '@/components/shared/logo/logo';
 import { ProfileIcon } from '@/components/shared/profile_icon/profileIcon';
 import { user } from '@/data/fakeData';
 import { Search } from '@/components/shared/search/search';
+import { Profile } from '@/components/shared/profile/profile';
 
 const font = Poppins({ subsets: ['latin'], weight: ['400', '600'] });
 
@@ -20,14 +21,14 @@ export default function RootLayout({ children }) {
       <body>
         {/* for desktop */}
         <main
-          className={`${font.className} bg-primary-50 hidden md:grid xl:grid-cols-[230px_1fr_350px] md:grid-cols-[230px_1fr] gap-12 scrollbar-hidden relative`}
+          className={`${font.className} bg-primary-50 hidden md:grid xl:grid-cols-[230px_1fr_400px] md:grid-cols-[230px_1fr] gap-12 scrollbar-hidden relative`}
         >
           {/* navbar */}
           <section className='hidden md:block sticky top-0 h-[100dvh] items-start'>
             <Navbar />
           </section>
           {/* main content */}
-          <section className='h-[100svh] py-5 md:pr-12 xl:pr-0 grid grid-rows-[auto_1fr]'>
+          <section className='h-[100svh] py-8 md:pr-12 xl:pr-0 grid grid-rows-[auto_1fr]'>
             <div className='flex items-center justify-between pb-5'>
               <Logo />
               <div className='flex items-center gap-5'>
@@ -38,7 +39,9 @@ export default function RootLayout({ children }) {
             <section className='overflow-y-auto'>{children}</section>
           </section>
           {/* profile bar */}
-          <section className='bg-white py-5 xl:block hidden'>profile</section>
+          <section className='bg-white py-8 xl:block hidden h-[100svh]'>
+            <Profile />
+          </section>
         </main>
 
         {/* for mobile */}
