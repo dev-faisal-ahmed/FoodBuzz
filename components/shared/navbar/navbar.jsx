@@ -1,7 +1,7 @@
 'use client';
 import { navLinks } from '@/data/navLinks';
 import { usePathname } from 'next/navigation';
-import ActiveNavLinks from './activeNavLinks';
+import { ActiveNavLinks } from './activeNavLinks';
 import { user } from '@/data/fakeData';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
 

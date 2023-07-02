@@ -1,11 +1,11 @@
 import { Hero } from '@/components/home_page/hero';
-import { Foods } from '@/components/shared/all_foods/foods';
+import { TrendyFoods } from '@/components/home_page/trendyFoods';
 
-export default function Home() {
+export default function HomePage() {
   return (
     <section className='py-5'>
       <Hero />
-      <Foods />
+      <TrendyFoods />
     </section>
   );
 }

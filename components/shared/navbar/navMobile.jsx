@@ -1,7 +1,7 @@
 'use client';
 
 import { navLinks } from '@/data/navLinks';
-import ActiveNavLinks from './activeNavLinks';
+import { ActiveNavLinks } from './activeNavLinks';
 import { usePathname } from 'next/navigation';
 
 export function NavMobile() {

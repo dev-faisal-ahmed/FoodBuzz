@@ -22,6 +22,7 @@ export function Profile() {
       </div>
     );
   }
+
   return (
     <section className='px-5 pb-8 h-full grid grid-rows-[auto_auto_1fr]'>
       {/* title && cart */}
@@ -59,7 +60,7 @@ export function Profile() {
         <div className='flex items-center justify-between pb-5 sticky top-0 bg-white'>
           {/* title */}
           <h1 className='text-xl truncate font-semibold'>Recent Orders</h1>
-          <Link href={'/orders'} className='text-blue-600'>
+          <Link className='text-blue-600 font-semibold' href={'/orders'}>
             See all
           </Link>
         </div>
