@@ -1,6 +1,28 @@
 'use client';
-export function FoodCard({ image, title, price }) {
+
+import { cartContext } from '@/context_provider/cartProvider';
+import { useContext, useState } from 'react';
+
+export function FoodCard({ image, title, price, id }) {
+  const { onAddCart, cartData, onRemove } = useContext(cartContext);
   const size = 200;
+
+  const isAdded = () => {
+    const filteredData = cartData?.filter((data) => data.id === id);
+    if (filteredData.length === 0) return false;
+    return true;
+  };
+
+  // const [added, setAdded] = useState(() => isAdded());
+
+  const addFood = () => {
+    onAddCart({ title, image, price, id });
+  };
+
+  const removeFood = () => {
+    onRemove(id);
+  };
+
   return (
     <div className='relative bg-primary-500 text-white p-5 rounded-2xl mt-24'>
       <div
@@ -28,9 +50,21 @@ export function FoodCard({ image, title, price }) {
       </h3>
       <div className='flex items-center justify-between'>
         <h2 className='text-2xl font-semibold text-orange-400'>${price}</h2>
-        <button className='px-5 py-2 border border-white rounded-lg hover:text-orange-400 hover:border-orange-400 animation'>
-          + Add
-        </button>
+        {isAdded() ? (
+          <button
+            onClick={removeFood}
+            className='px-5 py-2 border border-white rounded-lg hover:text-orange-400 hover:border-orange-400 animation'
+          >
+            - Remove
+          </button>
+        ) : (
+          <button
+            onClick={addFood}
+            className='px-5 py-2 border border-white rounded-lg hover:text-orange-400 hover:border-orange-400 animation'
+          >
+            + Add
+          </button>
+        )}
       </div>
     </div>
   );

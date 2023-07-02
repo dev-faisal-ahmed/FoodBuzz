@@ -1,11 +1,12 @@
 'use client';
 import { orders, user } from '@/data/fakeData';
 import { Cart } from './cart';
-import { ProfileIcon } from '../profile_icon/profileIcon';
+// import { ProfileIcon } from '../profileIcon';
 import { BiSolidEditAlt } from 'react-icons/bi';
 import { FaBox, FaWallet } from 'react-icons/fa';
 import Link from 'next/link';
-import { OrderCard } from '../oder/orderCard';
+import { OrderCard } from '../orderCard';
+import { ProfileIcon } from '../profileIcon';
 
 export function Profile() {
   // ui functions
