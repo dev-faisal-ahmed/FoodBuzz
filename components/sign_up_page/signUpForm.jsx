@@ -3,8 +3,63 @@ import Link from 'next/link';
 import AuthInput from '../shared/auth/authInput';
 import { GoogleAuth } from '../shared/auth/googleAuth';
 import { FacebookAuth } from '../shared/auth/facebookAuth';
+import { auth } from '@/firebase/firebase.init';
+import { postReq } from '@/helper/apiReq';
+import { toast } from 'react-hot-toast';
+import { toastConfig } from '@/helper/toastConfig';
+import { useRouter } from 'next/navigation';
+import {
+  useCreateUserWithEmailAndPassword,
+  useUpdateProfile,
+} from 'react-firebase-hooks/auth';
+import { Loader } from '../shared/loader/loader';
+import { useState } from 'react';
 
 export function SignUpForm() {
+  const route = useRouter();
+  const [createUserWithEmailAndPassword, , loading, errorToCreateUser] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile, updating, errorToUpdateProfile] =
+    useUpdateProfile(auth);
+  const [fetching, setFetching] = useState(false);
+
+  // handle sign up
+  async function handelSingUp(event) {
+    setFetching(true);
+    event.preventDefault();
+    const form = event.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const newUser = { name, email };
+
+    createUserWithEmailAndPassword(email, password).then(
+      async (userCredential) => {
+        if (userCredential.user.email) {
+          // if user created update userName
+          updateProfile({ displayName: name });
+          fetch('/api/sign-up', postReq(newUser))
+            .then((res) => res.json())
+            .then((res) => {
+              if (res.okay) {
+                toast.success(res.msg, toastConfig);
+                setFetching(false);
+                route.push('/');
+              } else {
+                toast.error(res.msg, toastConfig);
+              }
+              setFetching(false);
+            });
+          setFetching(false);
+        }
+      }
+    );
+  }
+
+  if (errorToCreateUser || errorToUpdateProfile) {
+    toast.error(`Something went wrong`, toastConfig);
+  }
+
   return (
     <div className='w-full lg:p-12 p-8 bg-white lg:rounded-none lg:shadow-none shadow-md rounded-3xl'>
       {/* headers */}
@@ -28,21 +83,14 @@ export function SignUpForm() {
       </div>
 
       {/* sign up form */}
-      <form className='flex flex-col lg:gap-5 gap-3'>
-        <div className='flex lg:items-center flex-col lg:flex-row lg:gap-5 gap-3'>
-          <AuthInput
-            title={'First Name'}
-            placeholder={'Your First Name'}
-            name={'first-name'}
-            type={'text'}
-          />
-          <AuthInput
-            title={'Last Name'}
-            placeholder={'Your Last Name'}
-            name={'last-name'}
-            type={'text'}
-          />
-        </div>
+      <form onSubmit={handelSingUp} className='flex flex-col lg:gap-5 gap-3'>
+        <AuthInput
+          title={'Name'}
+          placeholder={'Enter Your Name'}
+          name={'name'}
+          type={'text'}
+        />
+
         <AuthInput
           title={'Email'}
           placeholder={'Enter Your Email'}
@@ -55,9 +103,16 @@ export function SignUpForm() {
           name={'password'}
           type={'password'}
         />
-        <button className='mt-5 block px-8 lg:py-3 py-2 lg:mx-0 mx-auto bg-primary-500 hover:bg-transparent border border-primary-500 text-white hover:text-primary-500 animation w-fit rounded-lg'>
-          Sign Up
-        </button>
+
+        {updating || loading || fetching ? (
+          <div className='mt-5 block px-8 lg:py-3 py-2 lg:mx-0 mx-auto bg-gray-500 w-fit rounded-lg'>
+            <Loader className={'w-fit'} />
+          </div>
+        ) : (
+          <button className='mt-5 block px-8 lg:py-3 py-2 lg:mx-0 mx-auto bg-primary-500 hover:bg-transparent border border-primary-500 text-white hover:text-primary-500 animation w-fit rounded-lg'>
+            Sign Up
+          </button>
+        )}
       </form>
     </div>
   );

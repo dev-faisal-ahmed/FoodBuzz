@@ -5,6 +5,7 @@ import { CartModal } from '@/components/shared/profile/cartModal';
 import { CartProvider } from '@/context_provider/cartProvider';
 import { ClientOnly } from '@/components/shared/clientOnly';
 import { LayoutProvider } from '@/components/layout/layoutProvider';
+import { Toaster } from 'react-hot-toast';
 
 const font = Poppins({ subsets: ['latin'], weight: ['400', '600'] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
           <ModalProvider>
             <CartProvider>
               <CartModal />
+              <Toaster />
               <LayoutProvider font={font}>{children}</LayoutProvider>
             </CartProvider>
           </ModalProvider>
