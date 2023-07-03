@@ -8,7 +8,7 @@ import { ProfileIcon } from '../shared/profileIcon';
 export function MobileLayout({ font, children }) {
   return (
     <main
-      className={`${font.className} w-full bg-primary-50 grid md:hidden grid-rows-[auto_1fr_auto] min-h-[100svh] scrollbar-hidden`}
+      className={`${font.className} w-full bg-primary-50 grid md:hidden grid-rows-[auto_1fr_auto] min-h-[100dvh] scrollbar-hidden`}
     >
       <section className='sticky top-0 bg-white z-50 flex justify-between items-center py-2 px-5 shadow-md w-full'>
         <Logo />
