@@ -2,22 +2,19 @@
 import { useContext, useState } from 'react';
 import { TbTrashXFilled } from 'react-icons/tb';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
-import { cartContext } from '@/context_provider/cartProvider';
+import { cartActions, cartContext } from '@/context_provider/cartProvider';
 
 export function CartCard({ title, price, image, id, count }) {
-  const { onRemove, onIncrease, onDecrease } = useContext(cartContext);
+  const { updateCart } = useContext(cartContext);
 
-  const increase = () => {
-    onIncrease(id);
-  };
+  const increase = () =>
+    updateCart({ type: cartActions.increase, payload: { id } });
 
-  const decrease = () => {
-    onDecrease(id);
-  };
+  const decrease = () =>
+    updateCart({ type: cartActions.decrease, payload: { id } });
 
-  const remove = () => {
-    onRemove(id);
-  };
+  const remove = () =>
+    updateCart({ type: cartActions.remove, payload: { id } });
 
   return (
     <div className='grid grid-cols-5 gap-5 border-b pb-5'>
