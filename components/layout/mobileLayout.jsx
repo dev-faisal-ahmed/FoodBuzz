@@ -1,5 +1,4 @@
 'use client';
-
 import { user } from '@/data/fakeData';
 import { Logo } from '../shared/logo';
 import { NavMobile } from '../shared/navbar/navMobile';

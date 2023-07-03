@@ -12,6 +12,7 @@ export default function AuthInput({ title, placeholder, type, name }) {
         type={type}
         name={name}
         placeholder={placeholder}
+        required
       />
     </div>
   );
