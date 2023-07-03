@@ -17,7 +17,7 @@ export function Modal({ children, openModal, onCloseModal, title, width }) {
         >
           <header className='border-b center-y pb-3 px-1'>
             <h1 className='text-xl font-semibold flex-grow'>{title}</h1>
-            <button>
+            <button onClick={onCloseModal}>
               <VscClose size={20} />
             </button>
           </header>

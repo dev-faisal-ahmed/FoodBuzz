@@ -1,27 +1,21 @@
 'use client';
 
-import { cartContext } from '@/context_provider/cartProvider';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
+import { cartActions, cartContext } from '@/context_provider/cartProvider';
+import { isCardAdded } from '@/helper/cartHelper';
 
 export function FoodCard({ image, title, price, id }) {
-  const { onAddCart, cartData, onRemove } = useContext(cartContext);
+  const { cartData, updateCart } = useContext(cartContext);
   const size = 200;
 
-  const isAdded = () => {
-    const filteredData = cartData?.filter((data) => data.id === id);
-    if (filteredData.length === 0) return false;
-    return true;
-  };
+  const addFood = () =>
+    updateCart({
+      type: cartActions.add,
+      payload: { data: { id, title, image, price } },
+    });
 
-  // const [added, setAdded] = useState(() => isAdded());
-
-  const addFood = () => {
-    onAddCart({ title, image, price, id });
-  };
-
-  const removeFood = () => {
-    onRemove(id);
-  };
+  const removeFood = () =>
+    updateCart({ type: cartActions.remove, payload: { id } });
 
   return (
     <div className='relative bg-primary-500 text-white p-5 rounded-2xl mt-24'>
@@ -50,7 +44,7 @@ export function FoodCard({ image, title, price, id }) {
       </h3>
       <div className='flex items-center justify-between'>
         <h2 className='text-2xl font-semibold text-orange-400'>${price}</h2>
-        {isAdded() ? (
+        {isCardAdded(cartData.cartList, id) ? (
           <button
             onClick={removeFood}
             className='px-5 py-2 border border-white rounded-lg hover:text-orange-400 hover:border-orange-400 animation'
