@@ -1,12 +1,10 @@
-'use client';
 import './globals.css';
 import { Poppins } from 'next/font/google';
-import { MobileLayout } from '@/components/layout/mobileLayout';
-import { DesktopLayout } from '@/components/layout/desktopLayout';
 import { ModalProvider } from '@/context_provider/modalProvider';
 import { CartModal } from '@/components/shared/profile/cartModal';
 import { CartProvider } from '@/context_provider/cartProvider';
 import { ClientOnly } from '@/components/shared/clientOnly';
+import { LayoutProvider } from '@/components/layout/layoutProvider';
 
 const font = Poppins({ subsets: ['latin'], weight: ['400', '600'] });
 
@@ -23,8 +21,7 @@ export default function RootLayout({ children }) {
           <ModalProvider>
             <CartProvider>
               <CartModal />
-              <DesktopLayout font={font}>{children}</DesktopLayout>
-              <MobileLayout font={font}>{children}</MobileLayout>
+              <LayoutProvider font={font}>{children}</LayoutProvider>
             </CartProvider>
           </ModalProvider>
         </ClientOnly>
