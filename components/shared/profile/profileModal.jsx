@@ -15,7 +15,7 @@ import { useGetUser } from '@/hooks/useGetUser';
 export function ProfileModal() {
   const { openProfileModal, onCloseProfileModal } = useContext(modalContext);
   const [user] = useAuthState(auth);
-  const { refetch } = useGetUser(user.email);
+  const { refetch } = useGetUser(user?.email);
   const [updateProfile, updating, error] = useUpdateProfile(auth);
   const [imageUrl, setImageUrl] = useState(user?.photoURL);
   const [isLoading, setIsLoading] = useState(false);
