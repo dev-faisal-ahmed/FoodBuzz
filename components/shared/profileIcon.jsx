@@ -1,5 +1,5 @@
 'use client';
-export function ProfileIcon({ image, size, margin, name, big }) {
+export function ProfileIcon({ image, size, margin, name, big, bgColor }) {
   return (
     <div
       className='center-xy'
@@ -11,7 +11,7 @@ export function ProfileIcon({ image, size, margin, name, big }) {
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         margin: margin || 0,
-        backgroundColor: '#F7F5FF',
+        backgroundColor: bgColor || '#F7F5FF',
       }}
     >
       {name ? (
