@@ -17,8 +17,11 @@ export function Modal({ children, openModal, onCloseModal, title, width }) {
         >
           <header className='border-b center-y pb-3 px-1'>
             <h1 className='text-xl font-semibold flex-grow'>{title}</h1>
-            <button onClick={onCloseModal}>
-              <VscClose size={20} />
+            <button
+              onClick={onCloseModal}
+              className='bg-primary-500 text-white rounded-full p-1 font-semibold'
+            >
+              <VscClose size={15} />
             </button>
           </header>
           <main className='py-4 h-full overflow-y-auto'>{children}</main>
