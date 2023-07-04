@@ -8,6 +8,7 @@ import { LayoutProvider } from '@/components/layout/layoutProvider';
 import { Toaster } from 'react-hot-toast';
 import { ProfileModal } from '@/components/shared/profile/profileModal';
 import { QueryProvider } from '@/context_provider/queryProvider';
+import { PaymentModal } from '@/components/shared/profile/paymentModal';
 
 const font = Poppins({ subsets: ['latin'], weight: ['400', '600'] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
                 {/* modal */}
                 <CartModal />
                 <ProfileModal />
+                <PaymentModal />
                 {/* layout */}
                 <LayoutProvider font={font}>{children}</LayoutProvider>
               </CartProvider>
