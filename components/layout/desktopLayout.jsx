@@ -44,7 +44,7 @@ export function DesktopLayout({ font, children }) {
               className='xl:hidden block cursor-pointer'
             >
               <ProfileIcon
-                image={user?.image}
+                image={user?.photoURL}
                 name={user?.displayName}
                 bgColor={'white'}
               />

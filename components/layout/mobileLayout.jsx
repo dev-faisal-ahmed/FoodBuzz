@@ -19,8 +19,8 @@ export function MobileLayout({ font, children }) {
           <Cart size={25} />
 
           <ProfileIcon
-            size={'40px'}
-            image={user?.image}
+            size={45}
+            image={user?.photoURL}
             name={user?.displayName}
           />
         </div>

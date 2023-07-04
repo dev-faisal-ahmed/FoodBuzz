@@ -6,6 +6,7 @@ import { CartProvider } from '@/context_provider/cartProvider';
 import { ClientOnly } from '@/components/shared/clientOnly';
 import { LayoutProvider } from '@/components/layout/layoutProvider';
 import { Toaster } from 'react-hot-toast';
+import { ProfileModal } from '@/components/shared/profile/profileModal';
 
 const font = Poppins({ subsets: ['latin'], weight: ['400', '600'] });
 
@@ -19,10 +20,15 @@ export default function RootLayout({ children }) {
     <html lang='en'>
       <body>
         <ClientOnly>
+          {/* context api */}
           <ModalProvider>
             <CartProvider>
-              <CartModal />
+              {/* toast */}
               <Toaster />
+              {/* modal */}
+              <CartModal />
+              <ProfileModal />
+              {/* layout */}
               <LayoutProvider font={font}>{children}</LayoutProvider>
             </CartProvider>
           </ModalProvider>

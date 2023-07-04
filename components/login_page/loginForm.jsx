@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import AuthInput from '../shared/auth/authInput';
+import { Input } from '../shared/input/input';
 import { FacebookAuth } from '../shared/auth/facebookAuth';
 import { GoogleAuth } from '../shared/auth/googleAuth';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
@@ -56,21 +56,21 @@ export function LoginForm() {
 
       {/* login form */}
       <form onSubmit={handleLogin} className='flex flex-col lg:gap-5 gap-3'>
-        <AuthInput
+        <Input
           name={'email'}
           title={'Email'}
           placeholder={'Enter Your Email'}
           type={'email'}
         />
-        <AuthInput
+        <Input
           name={'password'}
           title={'Password'}
           placeholder={'Enter Your Password'}
           type={'password'}
         />
         {loading ? (
-          <div className='mt-5 block px-8 lg:py-3 py-2 lg:mx-0 mx-auto bg-gray-500 w-fit rounded-lg'>
-            <Loader className={'w-fit'} />
+          <div className='mt-5 block px-8 lg:mx-0 mx-auto bg-gray-500 w-fit rounded-lg'>
+            <Loader />
           </div>
         ) : (
           <button className='mt-5 block px-8 lg:py-3 py-2 lg:mx-0 mx-auto bg-primary-500 hover:bg-transparent border border-primary-500 text-white hover:text-primary-500 animation w-fit rounded-lg'>
