@@ -3,10 +3,11 @@
 import { useContext } from 'react';
 import { cartActions, cartContext } from '@/context_provider/cartProvider';
 import { isCardAdded } from '@/helper/cartHelper';
+import Image from 'next/image';
 
 export function FoodCard({ image, title, price, id }) {
   const { cartData, updateCart } = useContext(cartContext);
-  const size = 200;
+  const size = 150;
 
   const addFood = () =>
     updateCart({
@@ -20,24 +21,21 @@ export function FoodCard({ image, title, price, id }) {
   return (
     <div className='relative bg-primary-500 text-white p-5 rounded-2xl mt-24'>
       <div
-        className='border-[5px] border-primary-50 cursor-pointer rounded-full overflow-hidden'
+        className='absolute border-[5px] border-primary-50 cursor-pointer rounded-full overflow-hidden'
         style={{
-          position: 'absolute',
           top: `-${size / 2}px`,
           left: '50%',
           transform: 'translateX(-50%)',
         }}
       >
-        <div
-          className='hover:scale-110 animation'
-          style={{
-            backgroundImage: `url(${image})`,
-            width: size + 'px',
-            height: size + 'px',
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-          }}
-        ></div>
+        <Image
+          className='rounded-full'
+          style={{ width: size, height: size, objectFit: 'cover' }}
+          src={image}
+          alt={title}
+          width={size}
+          height={size}
+        />
       </div>
       <h3 className='mt-32 text-lg font-semibold mb-2 w-full truncate text-gray-200'>
         {title}
