@@ -18,7 +18,9 @@ export function Navbar() {
 
   // signing out
   async function handleSignOut() {
-    signOut().then(() => toast.success('Sign out user', toastConfig));
+    signOut().then(() => {
+      toast.success('Sign out user', toastConfig);
+    });
   }
 
   if (error) toast.error(error.message, toastConfig);
