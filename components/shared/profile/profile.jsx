@@ -11,8 +11,12 @@ import { auth } from '@/firebase/firebase.init';
 import { Loader } from '../loader/loader';
 import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
+import { useContext } from 'react';
+import { modalContext } from '@/context_provider/modalProvider';
 
 export function Profile() {
+  const { onOpenProfileModal } = useContext(modalContext);
+
   const [user, loading, error] = useAuthState(auth);
   if (loading) return <Loader />;
   if (error) toast.error(error.message, toastConfig);
@@ -41,12 +45,15 @@ export function Profile() {
       </div>
       {/* profile */}
       <div className='p-5 border mt-8 rounded-xl relative'>
-        <div className='absolute top-5 right-5 rounded-md bg-primary-50 p-2 text-primary-700 cursor-pointer hover:scale-110 animation shadow-md'>
+        <div
+          onClick={onOpenProfileModal}
+          className='absolute top-5 right-5 rounded-md bg-primary-50 p-2 text-primary-700 cursor-pointer hover:scale-110 animation shadow-md'
+        >
           <BiSolidEditAlt size={20} />
         </div>
         <ProfileIcon
           image={user?.photoURL}
-          size={'150px'}
+          size={150}
           margin={'0 auto'}
           name={user?.displayName}
           big={true}

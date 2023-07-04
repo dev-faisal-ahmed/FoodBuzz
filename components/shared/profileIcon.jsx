@@ -1,29 +1,35 @@
 'use client';
-export function ProfileIcon({ image, size, margin, name, big, bgColor }) {
+import Image from 'next/image';
+import { FaUserSecret } from 'react-icons/fa6';
+
+export function ProfileIcon({ image, size = 50, margin, name, big, bgColor }) {
   return (
     <div
       className='center-xy'
       style={{
-        backgroundImage: `url(${image})`,
-        width: size || '50px',
-        height: size || '50px',
+        width: `${size}px`,
+        height: `${size}px`,
         borderRadius: '50%',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        margin: margin || 0,
         backgroundColor: bgColor || '#F7F5FF',
+        margin: margin || 0,
       }}
     >
-      {name ? (
-        <span
-          className={`font-semibold text-primary-700 ${
-            big ? 'text-6xl' : 'text-2xl'
-          }`}
-        >
-          {name[0]}
-        </span>
+      {image ? (
+        <Image
+          style={{
+            objectFit: 'cover',
+            objectPosition: 'center',
+            width: `${size}px`,
+            height: `${size}px`,
+            borderRadius: '50%',
+          }}
+          src={image}
+          alt={`image of ${name}`}
+          width={size}
+          height={size}
+        />
       ) : (
-        <>{big && <span className='text-2xl font-semibold'>^ _ ^</span>}</>
+        <FaUserSecret className='text-primary-600' size={big ? 90 : 25} />
       )}
     </div>
   );
