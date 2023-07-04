@@ -22,7 +22,9 @@ export function DesktopLayout({ font, children }) {
           <Logo />
           <div className='flex items-center gap-5'>
             <Search />
-            <ProfileIcon image={user.image} />
+            <div className='xl:hidden block'>
+              <ProfileIcon image={user.image} />
+            </div>
           </div>
         </div>
         <section className='overflow-y-auto'>{children}</section>

@@ -1,7 +1,8 @@
 'use client';
-export function ProfileIcon({ image, size, margin }) {
+export function ProfileIcon({ image, size, margin, name, big }) {
   return (
     <div
+      className='center-xy'
       style={{
         backgroundImage: `url(${image})`,
         width: size || '50px',
@@ -10,9 +11,20 @@ export function ProfileIcon({ image, size, margin }) {
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         margin: margin || 0,
+        backgroundColor: '#F7F5FF',
       }}
     >
-      &nbsp;
+      {name ? (
+        <span
+          className={`font-semibold text-primary-700 ${
+            big ? 'text-6xl' : 'text-2xl'
+          }`}
+        >
+          {name[0]}
+        </span>
+      ) : (
+        <>{big && <span className='text-2xl font-semibold'>^ _ ^</span>}</>
+      )}
     </div>
   );
 }

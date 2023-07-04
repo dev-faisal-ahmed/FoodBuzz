@@ -1,14 +1,22 @@
 'use client';
-import { orders, user } from '@/data/fakeData';
+import { orders } from '@/data/fakeData';
 import { Cart } from './cart';
-// import { ProfileIcon } from '../profileIcon';
 import { BiSolidEditAlt } from 'react-icons/bi';
 import { FaBox, FaWallet } from 'react-icons/fa';
 import Link from 'next/link';
 import { OrderCard } from '../orderCard';
 import { ProfileIcon } from '../profileIcon';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/firebase/firebase.init';
+import { Loader } from '../loader/loader';
+import { toast } from 'react-hot-toast';
+import { toastConfig } from '@/helper/toastConfig';
 
 export function Profile() {
+  const [user, loading, error] = useAuthState(auth);
+  if (loading) return <Loader />;
+  if (error) toast.error(error.message, toastConfig);
+
   // ui functions
   function iconBox({ icon, value, key }) {
     return (
@@ -31,31 +39,46 @@ export function Profile() {
         <h1 className='text-xl truncate font-semibold'>My Profile</h1>
         <Cart />
       </div>
-
       {/* profile */}
       <div className='p-5 border mt-8 rounded-xl relative'>
         <div className='absolute top-5 right-5 rounded-md bg-primary-50 p-2 text-primary-700 cursor-pointer hover:scale-110 animation shadow-md'>
           <BiSolidEditAlt size={20} />
         </div>
-        <ProfileIcon image={user.image} size={'150px'} margin={'0 auto'} />
+        <ProfileIcon
+          image={user?.photoURL}
+          size={'150px'}
+          margin={'0 auto'}
+          name={user?.displayName}
+          big={true}
+        />
         <h1 className='mt-5 font-semibold text-center text-xl'>
-          {user.firstName + ' ' + user.lastName}
+          {user?.displayName}
         </h1>
-        <p className='text-sm text-gray-500 text-center mt-2'>{user.address}</p>
+        <p className='text-sm text-gray-500 text-center mt-2'>
+          {user?.address}
+        </p>
+
         <div className='p-3 bg-primary-50 rounded-xl mt-8 grid grid-cols-2'>
-          {iconBox({
-            icon: <FaBox size={20} />,
-            key: 'Orders',
-            value: 20,
-          })}
-          {iconBox({
-            icon: <FaWallet size={20} />,
-            key: 'Spent',
-            value: 20125,
-          })}
+          {user ? (
+            <>
+              {iconBox({
+                icon: <FaBox size={20} />,
+                key: 'Orders',
+                value: 20,
+              })}
+              {iconBox({
+                icon: <FaWallet size={20} />,
+                key: 'Spent',
+                value: 20125,
+              })}
+            </>
+          ) : (
+            <h1 className='text-center col-span-2 font-semibold'>
+              Please Login
+            </h1>
+          )}
         </div>
       </div>
-
       {/* orders */}
       <div className='mt-8 h-full overflow-y-auto relative'>
         <div className='flex items-center justify-between pb-5 sticky top-0 bg-white'>
