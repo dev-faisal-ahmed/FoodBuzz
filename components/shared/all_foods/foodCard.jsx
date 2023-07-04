@@ -28,7 +28,7 @@ export function FoodCard({ image, title, price, id }) {
           transform: 'translateX(-50%)',
         }}
       >
-        <p
+        <div
           className='hover:scale-110 animation'
           style={{
             backgroundImage: `url(${image})`,
@@ -37,7 +37,7 @@ export function FoodCard({ image, title, price, id }) {
             backgroundPosition: 'center',
             backgroundSize: 'cover',
           }}
-        ></p>
+        ></div>
       </div>
       <h3 className='mt-32 text-lg font-semibold mb-2 w-full truncate text-gray-200'>
         {title}

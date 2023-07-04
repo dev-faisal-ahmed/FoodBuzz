@@ -18,7 +18,7 @@ export function TrendyFoods() {
       </div>
 
       {/* food list */}
-      <section className='mt-8 grid xl:grid-cols-3 sm:grid-cols-2 gap-8'>
+      <section className='mt-8 grid 2xl:grid-cols-3 sm:grid-cols-2 gap-8'>
         {foods.map((food) => (
           <FoodCard
             key={food.id}

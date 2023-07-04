@@ -8,7 +8,7 @@ export function Search() {
         <RiSearch2Line size={25} className='text-gray-500' />
       </label>
       <input
-        className='outline-none'
+        className='outline-none w-full'
         id='search'
         type='text'
         placeholder='Search Category'
