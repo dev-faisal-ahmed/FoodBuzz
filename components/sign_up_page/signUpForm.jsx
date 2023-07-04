@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import {
   useCreateUserWithEmailAndPassword,
   useUpdateProfile,
+  useSignOut,
 } from 'react-firebase-hooks/auth';
 import { Loader } from '../shared/loader/loader';
 import { useState } from 'react';
@@ -21,6 +22,7 @@ export function SignUpForm() {
     useCreateUserWithEmailAndPassword(auth);
   const [updateProfile, updating, errorToUpdateProfile] =
     useUpdateProfile(auth);
+  const [signOut] = useSignOut(auth);
   const [fetching, setFetching] = useState(false);
 
   // handle sign up
@@ -40,11 +42,12 @@ export function SignUpForm() {
           updateProfile({ displayName: name });
           fetch('/api/sign-up', postReq(newUser))
             .then((res) => res.json())
-            .then((res) => {
+            .then(async (res) => {
               if (res.okay) {
                 toast.success(res.msg, toastConfig);
                 setFetching(false);
-                route.push('/');
+                await signOut();
+                route.push('/login');
               } else {
                 toast.error(res.msg, toastConfig);
               }

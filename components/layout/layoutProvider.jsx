@@ -6,7 +6,7 @@ import { MobileLayout } from './mobileLayout';
 export function LayoutProvider({ children, font }) {
   const pathName = usePathname();
 
-  if (pathName === '/sign-up')
+  if (pathName === '/sign-up' || pathName === '/login')
     return <main className={font.className}>{children}</main>;
 
   return (
