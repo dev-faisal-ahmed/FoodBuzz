@@ -10,10 +10,12 @@ import { Loader } from '../loader/loader';
 import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
 import { postReq } from '@/helper/apiReq';
+import { useGetUser } from '@/hooks/useGetUser';
 
 export function ProfileModal() {
   const { openProfileModal, onCloseProfileModal } = useContext(modalContext);
   const [user] = useAuthState(auth);
+  const { refetch } = useGetUser(user.email);
   const [updateProfile, updating, error] = useUpdateProfile(auth);
   const [imageUrl, setImageUrl] = useState(user?.photoURL);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,6 +49,7 @@ export function ProfileModal() {
           else toast.error(res.msg, toastConfig);
           onCloseProfileModal();
           setIsLoading(false);
+          refetch();
         })
     );
   };

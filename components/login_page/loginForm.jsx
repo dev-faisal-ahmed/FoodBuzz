@@ -11,7 +11,7 @@ import { toastConfig } from '@/helper/toastConfig';
 import { useRouter } from 'next/navigation';
 
 export function LoginForm() {
-  const [signInWithEmailAndPassword, user, loading, error] =
+  const [signInWithEmailAndPassword, , loading, error] =
     useSignInWithEmailAndPassword(auth);
   const router = useRouter();
 
@@ -22,15 +22,14 @@ export function LoginForm() {
     const email = form.email.value;
     const password = form.password.value;
 
-    signInWithEmailAndPassword(email, password);
+    signInWithEmailAndPassword(email, password).then((userCredential) => {
+      if (!userCredential) return;
+      toast.success(`Logged in as ${userCredential.user.displayName}`);
+      router.push('/');
+    });
   }
 
   if (error) toast.error(error.message, toastConfig);
-
-  if (user) {
-    toast.success(`Logged as ${user.user.displayName}`);
-    router.push('/');
-  }
 
   return (
     <div className='w-full lg:p-12 p-8 bg-white lg:rounded-none lg:shadow-none shadow-md rounded-3xl'>

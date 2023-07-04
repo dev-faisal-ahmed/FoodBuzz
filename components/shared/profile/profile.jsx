@@ -6,20 +6,17 @@ import { FaBox, FaWallet } from 'react-icons/fa';
 import Link from 'next/link';
 import { OrderCard } from '../orderCard';
 import { ProfileIcon } from '../profileIcon';
+import { useContext } from 'react';
+import { modalContext } from '@/context_provider/modalProvider';
+import { useGetUser } from '@/hooks/useGetUser';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/firebase.init';
 import { Loader } from '../loader/loader';
-import { toast } from 'react-hot-toast';
-import { toastConfig } from '@/helper/toastConfig';
-import { useContext } from 'react';
-import { modalContext } from '@/context_provider/modalProvider';
 
 export function Profile() {
+  const [user, loading] = useAuthState(auth);
   const { onOpenProfileModal } = useContext(modalContext);
-
-  const [user, loading, error] = useAuthState(auth);
-  if (loading) return <Loader />;
-  if (error) toast.error(error.message, toastConfig);
+  const { userInfo } = useGetUser(user?.email);
 
   // ui functions
   function iconBox({ icon, value, key }) {
@@ -36,6 +33,9 @@ export function Profile() {
     );
   }
 
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <section className='px-5 pb-8 h-full grid grid-rows-[auto_auto_1fr]'>
       {/* title && cart */}
@@ -58,11 +58,9 @@ export function Profile() {
           name={user?.displayName}
           big={true}
         />
-        <h1 className='mt-5 font-semibold text-center text-xl'>
-          {user?.displayName}
-        </h1>
+        <h1 className='mt-5 font-semibold text-center text-xl'>{user?.name}</h1>
         <p className='text-sm text-gray-500 text-center mt-2'>
-          {user?.address}
+          {userInfo?.address}
         </p>
 
         <div className='p-3 bg-primary-50 rounded-xl mt-8 grid grid-cols-2'>
