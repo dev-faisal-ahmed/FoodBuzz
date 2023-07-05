@@ -29,7 +29,7 @@ export function MobileLayout({ font, children }) {
 
   return (
     <main
-      className={`${font.className} w-full bg-primary-50 grid md:hidden grid-rows-[auto_1fr_auto] h-[100dvh] scrollbar-hidden `}
+      className={`${font.className} relative w-full bg-primary-50 grid md:hidden grid-rows-[auto_1fr_auto] h-[100dvh] scrollbar-hidden `}
     >
       <section className='bg-white z-50 flex justify-between items-center py-2 px-5 shadow-md w-full'>
         <Logo />
@@ -59,14 +59,14 @@ export function MobileLayout({ font, children }) {
             )}
           </>
         </div>
-        <div
-          ref={ref}
-          className={`absolute top-[61px] p-3 animation z-50 ${
-            showProfileMenu ? 'right-0' : 'right-[-500px]'
-          }`}
-        >
-          <ProfileMenu />
-        </div>
+        {showProfileMenu && (
+          <div
+            ref={ref}
+            className={`absolute top-[61px] right-0 p-3 animation z-50`}
+          >
+            <ProfileMenu />
+          </div>
+        )}
       </section>
       <section className='px-5 w-full overflow-y-auto'>{children}</section>
       <section className='block'>
