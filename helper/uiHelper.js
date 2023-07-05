@@ -10,3 +10,17 @@ export function textBox(key, value, bold = false) {
     </p>
   );
 }
+
+export function iconBox({ icon, value, key }) {
+  return (
+    <div className='flex gap-3'>
+      <div className='w-10 h-10 bg-white rounded-full center-xy text-primary-500'>
+        {icon}
+      </div>
+      <div>
+        <p className='text-sm text-gray-600'>{key}</p>
+        <h4 className='font-semibold'>{value.toLocaleString()}</h4>
+      </div>
+    </div>
+  );
+}

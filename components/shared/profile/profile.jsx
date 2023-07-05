@@ -12,30 +12,17 @@ import { useGetUser } from '@/hooks/useGetUser';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/firebase.init';
 import { Loader } from '../loader/loader';
+import { iconBox } from '@/helper/uiHelper';
 
 export function Profile() {
   const [user, loading] = useAuthState(auth);
   const { onOpenProfileModal } = useContext(modalContext);
   const { userInfo } = useGetUser(user?.email);
 
-  // ui functions
-  function iconBox({ icon, value, key }) {
-    return (
-      <div className='flex gap-3'>
-        <div className='w-10 h-10 bg-white rounded-full center-xy text-primary-500'>
-          {icon}
-        </div>
-        <div>
-          <p className='text-sm text-gray-600'>{key}</p>
-          <h4 className='font-semibold'>{value.toLocaleString()}</h4>
-        </div>
-      </div>
-    );
-  }
-
   if (loading) {
     return <Loader />;
   }
+
   return (
     <section className='px-5 pb-8 h-full grid grid-rows-[auto_auto_1fr]'>
       {/* title && cart */}
@@ -64,17 +51,17 @@ export function Profile() {
         </p>
 
         <div className='p-3 bg-primary-50 rounded-xl mt-8 grid grid-cols-2'>
-          {user ? (
+          {userInfo ? (
             <>
               {iconBox({
                 icon: <FaBox size={20} />,
                 key: 'Orders',
-                value: 20,
+                value: userInfo?.totalOrders || 0,
               })}
               {iconBox({
                 icon: <FaWallet size={20} />,
                 key: 'Spent',
-                value: 20125,
+                value: userInfo?.totalCost || 0,
               })}
             </>
           ) : (
@@ -85,25 +72,34 @@ export function Profile() {
         </div>
       </div>
       {/* orders */}
+
       <div className='mt-8 h-full overflow-y-auto relative'>
-        <div className='flex items-center justify-between pb-5 sticky top-0 bg-white'>
-          {/* title */}
-          <h1 className='text-xl truncate font-semibold'>Recent Orders</h1>
-          <Link className='text-blue-600 font-semibold' href={'/orders'}>
-            See all
-          </Link>
-        </div>
+        {userInfo?.order && (
+          <div className='flex items-center justify-between pb-5 sticky top-0 bg-white'>
+            {/* title */}
+            <h1 className='text-xl truncate font-semibold'>Recent Orders</h1>
+            <Link className='text-blue-600 font-semibold' href={'/orders'}>
+              See all
+            </Link>
+          </div>
+        )}
 
         {/* oder list */}
         <div className='flex flex-col gap-5'>
-          {orders.map((order, index) => (
-            <OrderCard
-              key={index}
-              orderTitle={order.orderTitle}
-              price={order.price}
-              status={order.status}
-            />
-          ))}
+          {userInfo?.order ? (
+            <>
+              {userInfo?.orders.map((order, index) => (
+                <OrderCard
+                  key={index}
+                  orderTitle={order.orderTitle}
+                  price={order.price}
+                  status={order.status}
+                />
+              ))}
+            </>
+          ) : (
+            <h1 className='font-semibold text-center'>{`You haven't ordered anything yet! 😥`}</h1>
+          )}
         </div>
       </div>
     </section>

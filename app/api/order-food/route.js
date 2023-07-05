@@ -8,7 +8,7 @@ export async function POST(request) {
   let orderTitle = '';
 
   cartList.forEach((cart) => {
-    orderTitle += `${cart.count} ${cart.title}`;
+    orderTitle += `${cart.count} ${cart.title} `;
   });
 
   const orderId = v4();

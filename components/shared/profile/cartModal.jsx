@@ -6,18 +6,33 @@ import { CartCard } from './cartCard';
 import { cartActions, cartContext } from '@/context_provider/cartProvider';
 import { BsFillCartPlusFill } from 'react-icons/bs';
 import { textBox } from '@/helper/uiHelper';
+import { useRouter } from 'next/navigation';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/firebase/firebase.init';
+import { toast } from 'react-hot-toast';
+import { toastConfig } from '@/helper/toastConfig';
 
 export function CartModal() {
   const { openCart, onCloseCart, onOpenPaymentModal } =
     useContext(modalContext);
   const { cartData, updateCart } = useContext(cartContext);
-
+  const router = useRouter();
+  const [user] = useAuthState(auth);
   // clear all
   function clearAll() {
     updateCart({ type: cartActions.clearAll });
   }
 
-  // ordering
+  function onClickNext() {
+    if (!user) {
+      toast.error('Please log in first', toastConfig);
+      onCloseCart();
+      return router.push('/login');
+    }
+
+    onOpenPaymentModal();
+    onCloseCart();
+  }
 
   return (
     <Modal
@@ -62,10 +77,7 @@ export function CartModal() {
               Clear All
             </div>
             <button
-              onClick={() => {
-                onOpenPaymentModal();
-                onCloseCart();
-              }}
+              onClick={onClickNext}
               className={`px-5 py-2 text-white hover:text-green-600 bg-green-600 hover:bg-transparent border-2 border-green-600 rounded-lg font-semibold animation`}
             >
               Next
