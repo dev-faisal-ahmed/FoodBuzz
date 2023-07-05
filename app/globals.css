@@ -75,4 +75,7 @@
   .center-xy {
     @apply flex items-center justify-center;
   }
+  .hoverMenu {
+    @apply hover:bg-gray-300 duration-300 transition-all ease-in-out;
+  }
 }

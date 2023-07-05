@@ -68,7 +68,6 @@ export function ProfileModal() {
           <div className='p-5 rounded-xl border'>
             <ProfileIcon
               image={imageUrl}
-              name={user?.displayName}
               big={true}
               size={150}
               margin={'0 auto'}

@@ -16,7 +16,7 @@ export async function POST(request) {
   const orderInfo = {
     orderTitle,
     price: cartData.subTotal + 50,
-    status: 'Pending',
+    status: 'pending',
     email,
     orderId,
     pickUpAddress,

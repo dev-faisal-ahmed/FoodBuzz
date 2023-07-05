@@ -1,5 +1,4 @@
 'use client';
-import { orders } from '@/data/fakeData';
 import { Cart } from './cart';
 import { BiSolidEditAlt } from 'react-icons/bi';
 import { FaBox, FaWallet } from 'react-icons/fa';
@@ -74,7 +73,7 @@ export function Profile() {
       {/* orders */}
 
       <div className='mt-8 h-full overflow-y-auto relative'>
-        {userInfo?.order && (
+        {userInfo?.orders && (
           <div className='flex items-center justify-between pb-5 sticky top-0 bg-white'>
             {/* title */}
             <h1 className='text-xl truncate font-semibold'>Recent Orders</h1>
@@ -86,7 +85,7 @@ export function Profile() {
 
         {/* oder list */}
         <div className='flex flex-col gap-5'>
-          {userInfo?.order ? (
+          {userInfo?.orders ? (
             <>
               {userInfo?.orders.map((order, index) => (
                 <OrderCard
