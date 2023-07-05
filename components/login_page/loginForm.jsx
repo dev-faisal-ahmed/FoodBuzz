@@ -36,7 +36,7 @@ export function LoginForm() {
       {/* headers */}
       <h1 className='text-2xl font-semibold'>Login</h1>
       <p className='mt-3'>
-        new Here?{' '}
+        New Here?{' '}
         <Link className='text-blue-600 underline' href={'/sign-up'}>
           Sign Up from here
         </Link>

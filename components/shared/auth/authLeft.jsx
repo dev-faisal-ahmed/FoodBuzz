@@ -10,7 +10,10 @@ export function AuthLeft() {
       <Logo big={true} />
       <div>
         <h1 className='text-3xl font-semibold'>
-          New User <br /> Registration
+          <span>{pathName === '/sign-up' && 'New User Registration'}</span>
+          <span className='whitespace-nowrap'>
+            {pathName === '/login' && 'Welcome Back 👋'}
+          </span>
         </h1>
         <div className='mt-12 text-lg center-y gap-5'>
           <Link
@@ -31,7 +34,9 @@ export function AuthLeft() {
           </Link>
         </div>
       </div>
-      <p>Terms of use and contradiction</p>
+      <p className='whitespace-nowrap text-center'>
+        Terms of use and contradiction
+      </p>
     </div>
   );
 }
