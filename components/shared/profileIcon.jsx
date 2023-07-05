@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { FaUserSecret } from 'react-icons/fa6';
 
-export function ProfileIcon({ image, size = 50, margin, name, big, bgColor }) {
+export function ProfileIcon({ image, size = 50, margin, big, bgColor }) {
   return (
     <div
       className='center-xy'
@@ -24,7 +24,7 @@ export function ProfileIcon({ image, size = 50, margin, name, big, bgColor }) {
             borderRadius: '50%',
           }}
           src={image}
-          alt={`image of ${name}`}
+          alt={`image of user`}
           width={size}
           height={size}
         />

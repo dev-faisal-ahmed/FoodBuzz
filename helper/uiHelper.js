@@ -14,8 +14,8 @@ export function textBox(key, value, bold = false) {
 export function iconBox({ icon, value, key }) {
   return (
     <div className='flex gap-3'>
-      <div className='w-10 h-10 bg-white rounded-full center-xy text-primary-500'>
-        {icon}
+      <div className='center-xy'>
+        <div className='bg-white p-3 rounded-full text-primary-500'>{icon}</div>
       </div>
       <div>
         <p className='text-sm text-gray-600'>{key}</p>

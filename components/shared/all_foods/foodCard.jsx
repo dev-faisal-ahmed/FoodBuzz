@@ -26,6 +26,8 @@ export function FoodCard({ image, title, price, id }) {
           top: `-${size / 2}px`,
           left: '50%',
           transform: 'translateX(-50%)',
+          height: size,
+          width: size,
         }}
       >
         <Image
