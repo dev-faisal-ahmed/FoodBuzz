@@ -4,7 +4,7 @@ import { VscClose } from 'react-icons/vsc';
 export function Modal({ children, openModal, onCloseModal, title, width }) {
   return (
     openModal && (
-      <section onClick={onCloseModal} className='modal'>
+      <section onClick={onCloseModal} className='modal p-3'>
         <section
           className='bg-white rounded-xl p-4 grid grid-rows-[auto_1fr]'
           style={{

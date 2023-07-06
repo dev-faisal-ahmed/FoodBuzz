@@ -22,6 +22,8 @@ export function Profile() {
     return <Loader />;
   }
 
+  console.log(userInfo?.orders);
+
   return (
     <section className='px-5 pb-8 h-full grid grid-rows-[auto_auto_1fr]'>
       {/* title && cart */}
@@ -41,10 +43,11 @@ export function Profile() {
           image={user?.photoURL}
           size={150}
           margin={'0 auto'}
-          name={user?.displayName}
           big={true}
         />
-        <h1 className='mt-5 font-semibold text-center text-xl'>{user?.name}</h1>
+        <h1 className='mt-5 font-semibold text-center text-xl'>
+          {user?.displayName}
+        </h1>
         <p className='text-sm text-gray-500 text-center mt-2'>
           {userInfo?.address}
         </p>
@@ -73,7 +76,7 @@ export function Profile() {
       {/* orders */}
 
       <div className='mt-8 h-full overflow-y-auto relative'>
-        {userInfo?.orders && (
+        {userInfo?.orders?.length !== 0 && (
           <div className='flex items-center justify-between pb-5 sticky top-0 bg-white'>
             {/* title */}
             <h1 className='text-xl truncate font-semibold'>Recent Orders</h1>
@@ -85,7 +88,7 @@ export function Profile() {
 
         {/* oder list */}
         <div className='flex flex-col gap-5'>
-          {userInfo?.orders ? (
+          {userInfo?.orders?.length !== 0 ? (
             <>
               {userInfo?.orders.map((order, index) => (
                 <OrderCard

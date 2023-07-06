@@ -56,6 +56,7 @@ export function PaymentModal() {
           title={'Address'}
           placeholder={'Input Pickup Location'}
           type={'text'}
+          required={true}
         />
         <div className='mt-3 border-y py-3'>
           {textBox('Sub Total', '$ ' + cartData.subTotal)}

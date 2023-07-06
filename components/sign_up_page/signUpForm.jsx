@@ -37,7 +37,7 @@ export function SignUpForm() {
 
     createUserWithEmailAndPassword(email, password).then(
       async (userCredential) => {
-        if (userCredential.user.email) {
+        if (userCredential?.user?.email) {
           // if user created update userName
           updateProfile({ displayName: name });
           fetch('/api/sign-up', postReq(newUser))
@@ -92,6 +92,7 @@ export function SignUpForm() {
           placeholder={'Enter Your Name'}
           name={'name'}
           type={'text'}
+          required={true}
         />
 
         <Input
@@ -99,12 +100,14 @@ export function SignUpForm() {
           placeholder={'Enter Your Email'}
           name={'email'}
           type={'email'}
+          required={true}
         />
         <Input
           title={'Password'}
           placeholder={'Enter A Strong Password'}
           name={'password'}
           type={'password'}
+          required={true}
         />
 
         {updating || loading || fetching ? (
