@@ -60,12 +60,14 @@ export function LoginForm() {
           title={'Email'}
           placeholder={'Enter Your Email'}
           type={'email'}
+          required={true}
         />
         <Input
           name={'password'}
           title={'Password'}
           placeholder={'Enter Your Password'}
           type={'password'}
+          required={true}
         />
         {loading ? (
           <div className='mt-5 block px-8 lg:mx-0 mx-auto bg-gray-500 w-fit rounded-lg'>

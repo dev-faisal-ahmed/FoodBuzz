@@ -1,6 +1,6 @@
 'use client';
 
-export function Input({ title, placeholder, type, name, onChange }) {
+export function Input({ title, placeholder, type, name, onChange, required }) {
   return (
     <div>
       <label className='text-gray-500 font-semibold' htmlFor={name}>
@@ -14,7 +14,7 @@ export function Input({ title, placeholder, type, name, onChange }) {
           name={name}
           placeholder={placeholder}
           onChange={onChange}
-          required
+          required={required}
         />
       ) : (
         <input
@@ -23,7 +23,7 @@ export function Input({ title, placeholder, type, name, onChange }) {
           type={type}
           name={name}
           placeholder={placeholder}
-          required
+          required={required}
         />
       )}
     </div>

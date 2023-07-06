@@ -35,15 +35,14 @@ export function ProfileModal() {
     if (user?.photoURL !== imageUrl && imageUrl) {
       const updated = await updateProfile({ photoURL: imageUrl });
       if (updated) toast.success('Photo updated', toastConfig);
-    } else
-      toast.error(
-        'This is your current photo, Try using different photo url',
-        toastConfig
-      );
+    }
 
     // now storing the address to the database
-    fetch('/api/edit-profile', postReq({ email: user?.email, address })).then(
-      (res) =>
+    if (address.trim() !== '')
+      fetch(
+        '/api/edit-profile',
+        postReq({ email: user?.email, address: address.trim() })
+      ).then((res) =>
         res.json().then((res) => {
           if (res.okay) toast.success(res.msg, toastConfig);
           else toast.error(res.msg, toastConfig);
@@ -51,7 +50,7 @@ export function ProfileModal() {
           setIsLoading(false);
           refetch();
         })
-    );
+      );
   };
 
   if (error) toast.error(error.message, toastConfig);
