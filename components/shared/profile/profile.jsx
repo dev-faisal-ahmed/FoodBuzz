@@ -23,14 +23,21 @@ export function Profile({ mobileDevice }) {
   }
 
   return (
-    <section className='p-5 h-full grid grid-rows-[auto_auto_1fr] bg-white overflow-hidden rounded-lg'>
+    <section className={`${mobileDevice ? 'py-3' : 'p-5'}`}>
       {/* title && cart */}
-      <div className='flex items-center justify-between'>
-        <h1 className='text-xl truncate font-semibold'>My Profile</h1>
-        {!mobileDevice && <Cart />}
-      </div>
+      {!mobileDevice && (
+        <div className='flex items-center justify-between'>
+          <h1 className='text-xl truncate font-semibold'>My Profile</h1>
+          <Cart />
+        </div>
+      )}
+
       {/* profile */}
-      <div className='p-5 border mt-8 rounded-xl relative'>
+      <div
+        className={`p-5 border ${
+          mobileDevice ? 'm-0' : 'mt-8'
+        } rounded-xl relative bg-white`}
+      >
         <div
           onClick={onOpenProfileModal}
           className='absolute top-5 right-5 rounded-md bg-primary-50 p-2 text-primary-700 cursor-pointer hover:scale-110 animation shadow-md'
@@ -73,10 +80,10 @@ export function Profile({ mobileDevice }) {
       </div>
       {/* orders */}
 
-      <div className='mt-8 h-full overflow-y-auto relative'>
+      <div className='mt-8'>
         {userInfo?.orders?.length !== 0 && (
           <div
-            className={`flex items-center justify-between pb-5 sticky top-0 border-b mb-5 ${
+            className={`flex items-center justify-between pb-5 border-b mb-5 ${
               mobileDevice ? 'bg-transparent' : 'bg-white'
             }`}
           >
@@ -89,7 +96,7 @@ export function Profile({ mobileDevice }) {
         )}
 
         {/* oder list */}
-        <div className='flex flex-col gap-5 pb-8'>
+        <div className='flex flex-col gap-5'>
           {userInfo?.orders?.length !== 0 ? (
             <>
               {userInfo?.orders.map((order, index) => (

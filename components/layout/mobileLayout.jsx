@@ -68,7 +68,7 @@ export function MobileLayout({ font, children }) {
           </div>
         )}
       </section>
-      <section className='px-5 w-full overflow-y-auto'>{children}</section>
+      <section className='px-3 w-full overflow-y-auto'>{children}</section>
       <section className='block'>
         <NavMobile />
       </section>
