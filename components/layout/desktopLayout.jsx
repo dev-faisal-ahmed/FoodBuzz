@@ -55,7 +55,7 @@ export function DesktopLayout({ font, children }) {
 
         <div
           ref={profileDiv}
-          className={`absolute  z-50 bg-white py-8 xl:hidden h-[100dvh] animation ${
+          className={`absolute z-50 py-8 xl:hidden bg-white h-[100dvh] animation overflow-y-auto ${
             showProfile ? 'top-0 right-0' : 'right-[-700px]'
           }`}
         >
@@ -65,7 +65,7 @@ export function DesktopLayout({ font, children }) {
         <section className='overflow-y-auto'>{children}</section>
       </section>
       {/* profile bar */}
-      <section className='bg-white py-8 xl:block hidden h-[100dvh]'>
+      <section className='bg-white py-8 xl:block hidden h-[100dvh] overflow-y-auto'>
         <Profile />
       </section>
     </main>

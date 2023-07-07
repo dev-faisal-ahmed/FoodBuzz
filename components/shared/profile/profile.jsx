@@ -23,7 +23,7 @@ export function Profile({ mobileDevice }) {
   }
 
   return (
-    <section className={`${mobileDevice ? 'py-3' : 'p-5'}`}>
+    <section className={`${mobileDevice ? 'py-3' : 'px-5'}`}>
       {/* title && cart */}
       {!mobileDevice && (
         <div className='flex items-center justify-between'>
