@@ -21,6 +21,7 @@ export function CartModal() {
   // clear all
   function clearAll() {
     updateCart({ type: cartActions.clearAll });
+    onCloseCart();
   }
 
   function onClickNext() {

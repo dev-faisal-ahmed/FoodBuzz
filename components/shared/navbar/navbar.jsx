@@ -29,21 +29,23 @@ export function Navbar() {
     <nav className='bg-white p-5 h-full w-full flex flex-col justify-between shadow-md'>
       {/* nav links */}
       <div className='flex flex-col gap-3'>
-        {navLinks.map((link, index) => (
-          <ActiveNavLinks
-            key={index}
-            currentLink={currentLink}
-            icon={link.icon}
-            title={link.title}
-            url={link.url}
-            notification={link.notification}
-          />
-        ))}
+        {navLinks
+          .filter((link) => !link.mobileOnly)
+          .map((link, index) => (
+            <ActiveNavLinks
+              key={index}
+              currentLink={currentLink}
+              icon={link.icon}
+              title={link.title}
+              url={link.url}
+              notification={link.notification}
+            />
+          ))}
       </div>
       {/* profile icons */}
       {loading ? (
         <button className='py-1 px-2 bg-gray-300 animation'>
-          <Loader />
+          <Loader className={'w-fit mx-auto'} />
         </button>
       ) : (
         <>
