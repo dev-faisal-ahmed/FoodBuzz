@@ -12,13 +12,14 @@ import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
 import { Loader } from '../loader/loader';
 import { useRouter } from 'next/navigation';
+import { useGetUser } from '@/hooks/useGetUser';
 
 export function PaymentModal() {
   const [user] = useAuthState(auth);
   const { openPaymentModal, onClosePaymentModal } = useContext(modalContext);
   const { cartData, updateCart } = useContext(cartContext);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const { refetch } = useGetUser(user?.email);
 
   function handlePayment(e) {
     setLoading(true);
@@ -36,9 +37,9 @@ export function PaymentModal() {
         setLoading(false);
         if (res.okay) {
           toast.success(res.msg, toastConfig);
+          refetch();
         } else toast.error(res.msg);
         onClosePaymentModal();
-        router.push('/orders');
         updateCart({ type: cartActions.clearAll });
       });
   }
