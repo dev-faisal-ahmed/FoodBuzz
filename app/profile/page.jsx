@@ -12,7 +12,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <section className='h-full p-5'>
+    <section className=''>
       <Profile mobileDevice={true} />
     </section>
   );

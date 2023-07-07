@@ -45,9 +45,7 @@ export function CartModal() {
       {cartData.cartList.length === 0 ? (
         <div className='center-y gap-2 mx-auto w-fit'>
           <BsFillCartPlusFill size={20} />
-          <h2 className='text-gray-500 font-semibold'>
-            Please add something to your cart first
-          </h2>
+          <h2 className='text-gray-500 font-semibold'>Nothing to show</h2>
         </div>
       ) : (
         <>
