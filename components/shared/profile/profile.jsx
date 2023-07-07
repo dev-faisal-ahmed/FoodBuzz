@@ -13,7 +13,7 @@ import { auth } from '@/firebase/firebase.init';
 import { Loader } from '../loader/loader';
 import { iconBox } from '@/helper/uiHelper';
 
-export function Profile() {
+export function Profile({ mobileDevice }) {
   const [user, loading] = useAuthState(auth);
   const { onOpenProfileModal } = useContext(modalContext);
   const { userInfo } = useGetUser(user?.email);
@@ -22,14 +22,12 @@ export function Profile() {
     return <Loader />;
   }
 
-  console.log(userInfo?.orders);
-
   return (
-    <section className='px-5 pb-8 h-full grid grid-rows-[auto_auto_1fr]'>
+    <section className='p-5 h-full grid grid-rows-[auto_auto_1fr] bg-white overflow-hidden rounded-lg'>
       {/* title && cart */}
       <div className='flex items-center justify-between'>
         <h1 className='text-xl truncate font-semibold'>My Profile</h1>
-        <Cart />
+        {!mobileDevice && <Cart />}
       </div>
       {/* profile */}
       <div className='p-5 border mt-8 rounded-xl relative'>
@@ -77,7 +75,11 @@ export function Profile() {
 
       <div className='mt-8 h-full overflow-y-auto relative'>
         {userInfo?.orders?.length !== 0 && (
-          <div className='flex items-center justify-between pb-5 sticky top-0 bg-white'>
+          <div
+            className={`flex items-center justify-between pb-5 sticky top-0 border-b mb-5 ${
+              mobileDevice ? 'bg-transparent' : 'bg-white'
+            }`}
+          >
             {/* title */}
             <h1 className='text-xl truncate font-semibold'>Recent Orders</h1>
             <Link className='text-blue-600 font-semibold' href={'/orders'}>
@@ -87,7 +89,7 @@ export function Profile() {
         )}
 
         {/* oder list */}
-        <div className='flex flex-col gap-5'>
+        <div className='flex flex-col gap-5 pb-8'>
           {userInfo?.orders?.length !== 0 ? (
             <>
               {userInfo?.orders.map((order, index) => (
