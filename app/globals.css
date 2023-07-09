@@ -16,6 +16,14 @@
   display: none;
 }
 
+.scrollbar {
+  scrollbar-width: 5px;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 0px;
+}
+
 .modal {
   background: rgba(122, 122, 122, 0.6);
   position: absolute;

@@ -27,7 +27,7 @@ export function DesktopLayout({ font, children }) {
 
   return (
     <main
-      className={`${font.className} bg-primary-50 hidden md:grid xl:grid-cols-[230px_1fr_400px] md:grid-cols-[230px_1fr] gap-12 scrollbar-hidden overflow-x-hidden relative`}
+      className={`${font.className} bg-primary-50 hidden md:grid xl:grid-cols-[230px_1fr_400px] md:grid-cols-[230px_1fr] gap-12 overflow-x-hidden relative`}
     >
       {/* navbar */}
       <section className='hidden md:block sticky top-0 h-[100dvh] items-start'>

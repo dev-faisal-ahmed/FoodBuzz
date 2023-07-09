@@ -1,17 +1,19 @@
+import { getDateObject, idGenerator } from '@/helper/serverHelper';
 import { orderCollection, userCollection } from '@/lib/mongoClient';
 import { NextResponse } from 'next/server';
-import { v4 } from 'uuid';
 
 export async function POST(request) {
   const { email, cartData, pickUpAddress } = await request.json();
   const cartList = cartData.cartList;
   let orderTitle = '';
+  const date = new Date();
+  const dateObject = getDateObject(date);
 
   cartList.forEach((cart) => {
     orderTitle += `${cart.count} ${cart.title} `;
   });
 
-  const orderId = v4();
+  const orderId = idGenerator(date.getTime());
 
   const orderInfo = {
     orderTitle,
@@ -20,6 +22,8 @@ export async function POST(request) {
     email,
     orderId,
     pickUpAddress,
+    date: dateObject.date,
+    time: dateObject.time,
   };
 
   const docStatus = await orderCollection.insertOne(orderInfo);

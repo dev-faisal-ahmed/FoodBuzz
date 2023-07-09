@@ -29,7 +29,7 @@ export function MobileLayout({ font, children }) {
 
   return (
     <main
-      className={`${font.className} relative w-full bg-primary-50 grid md:hidden grid-rows-[auto_1fr_auto] h-[100dvh] scrollbar-hidden `}
+      className={`${font.className} relative w-full bg-primary-50 grid md:hidden grid-rows-[auto_1fr_auto] h-[100dvh]`}
     >
       <section className='bg-white z-50 flex justify-between items-center py-2 px-5 shadow-md w-full'>
         <Logo />
