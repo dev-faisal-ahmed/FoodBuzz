@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        g_lg: '1140px',
+        bigger: '1600px',
       },
       colors: {
         primary: {
