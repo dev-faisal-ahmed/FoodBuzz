@@ -3,14 +3,13 @@ import { BiSolidUpArrow } from 'react-icons/bi';
 import { Logo } from '../shared/logo';
 import { NavMobile } from '../shared/navbar/navMobile';
 import { ProfileIcon } from '../shared/profileIcon';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/firebase/firebase.init';
 import { Cart } from '../shared/profile/cart';
 import { useEffect, useRef, useState } from 'react';
 import { ProfileMenu } from '../shared/profile/profileMenu';
+import { getUserInfoLocal } from '@/helper/localStorage';
 
 export function MobileLayout({ font, children }) {
-  const [user] = useAuthState(auth);
+  const { image } = getUserInfoLocal();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const ref = useRef(null);
 
@@ -50,11 +49,7 @@ export function MobileLayout({ font, children }) {
                 onClick={() => setShowProfileMenu(true)} // to show the profileMenu
                 className='cursor-pointer'
               >
-                <ProfileIcon
-                  size={45}
-                  image={user?.photoURL}
-                  name={user?.displayName}
-                />
+                <ProfileIcon size={45} image={image} />
               </div>
             )}
           </>

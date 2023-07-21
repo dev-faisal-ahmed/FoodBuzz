@@ -17,7 +17,6 @@ export function Navbar() {
   // variables
   const currentLink = usePathname();
   const { email } = getUserInfoLocal();
-  // const [user, loading, error] = useAuthState(auth);
   const [signOut] = useSignOut(auth);
 
   // signing out

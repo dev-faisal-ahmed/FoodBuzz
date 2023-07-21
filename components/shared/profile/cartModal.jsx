@@ -7,17 +7,16 @@ import { cartActions, cartContext } from '@/context_provider/cartProvider';
 import { BsFillCartPlusFill } from 'react-icons/bs';
 import { textBox } from '@/helper/uiHelper';
 import { useRouter } from 'next/navigation';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/firebase/firebase.init';
 import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
+import { getUserInfoLocal } from '@/helper/localStorage';
 
 export function CartModal() {
   const { openCart, onCloseCart, onOpenPaymentModal } =
     useContext(modalContext);
   const { cartData, updateCart } = useContext(cartContext);
   const router = useRouter();
-  const [user] = useAuthState(auth);
+  const { email } = getUserInfoLocal();
   // clear all
   function clearAll() {
     updateCart({ type: cartActions.clearAll });
@@ -25,7 +24,7 @@ export function CartModal() {
   }
 
   function onClickNext() {
-    if (!user) {
+    if (!email) {
       toast.error('Please log in first', toastConfig);
       onCloseCart();
       return router.push('/login');
