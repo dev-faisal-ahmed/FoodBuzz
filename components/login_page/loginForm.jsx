@@ -9,6 +9,7 @@ import { auth } from '@/firebase/firebase.init';
 import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
 import { useRouter } from 'next/navigation';
+import { setUserInfoLocal } from '@/helper/localStorage';
 
 export function LoginForm() {
   const [signInWithEmailAndPassword, , loading, error] =
@@ -24,6 +25,18 @@ export function LoginForm() {
 
     signInWithEmailAndPassword(email, password).then((userCredential) => {
       if (!userCredential) return;
+      fetch(`/api/user-info/${email}`)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.okay) {
+            setUserInfoLocal({
+              email,
+              image: userCredential.user?.photoURL,
+              role: res.data?.role,
+              name: res.data?.name,
+            });
+          }
+        });
       toast.success(`Logged in as ${userCredential.user.displayName}`);
       router.push('/');
     });

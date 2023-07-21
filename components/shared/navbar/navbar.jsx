@@ -9,6 +9,7 @@ import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
 import Link from 'next/link';
 import { Loader } from '../loader/loader';
+import { deleteUserInfoFromLocal } from '@/helper/localStorage';
 
 export function Navbar() {
   // variables
@@ -20,6 +21,7 @@ export function Navbar() {
   async function handleSignOut() {
     signOut().then(() => {
       toast.success('Sign out user', toastConfig);
+      deleteUserInfoFromLocal();
     });
   }
 

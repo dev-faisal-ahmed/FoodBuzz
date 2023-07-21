@@ -2,25 +2,19 @@
 import { Cart } from './cart';
 import { BiSolidEditAlt } from 'react-icons/bi';
 import { FaBox, FaWallet } from 'react-icons/fa';
-import Link from 'next/link';
 import { OrderCard } from '../orderCard';
 import { ProfileIcon } from '../profileIcon';
 import { useContext } from 'react';
 import { modalContext } from '@/context_provider/modalProvider';
 import { useGetUser } from '@/hooks/useGetUser';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/firebase/firebase.init';
-import { Loader } from '../loader/loader';
 import { iconBox } from '@/helper/uiHelper';
+import { getUserInfoLocal } from '@/helper/localStorage';
+import Link from 'next/link';
 
 export function Profile({ mobileDevice }) {
-  const [user, loading] = useAuthState(auth);
+  const { email, image, name, role } = getUserInfoLocal();
   const { onOpenProfileModal } = useContext(modalContext);
-  const { userInfo } = useGetUser(user?.email);
-
-  if (loading) {
-    return <Loader />;
-  }
+  const { userInfo } = useGetUser(email);
 
   return (
     <section className={`${mobileDevice ? 'py-3' : 'px-5'}`}>
@@ -44,39 +38,34 @@ export function Profile({ mobileDevice }) {
         >
           <BiSolidEditAlt size={20} />
         </div>
-        <ProfileIcon
-          image={user?.photoURL}
-          size={150}
-          margin={'0 auto'}
-          big={true}
-        />
-        <h1 className='mt-5 font-semibold text-center text-xl'>
-          {user?.displayName}
-        </h1>
+        <ProfileIcon image={image} size={150} margin={'0 auto'} big={true} />
+        <h1 className='mt-5 font-semibold text-center text-xl'>{name}</h1>
         <p className='text-sm text-gray-500 text-center mt-2'>
           {userInfo?.address}
         </p>
 
-        <div className='p-3 bg-primary-50 rounded-xl mt-8 grid grid-cols-2'>
-          {userInfo ? (
-            <>
-              {iconBox({
-                icon: <FaBox size={20} />,
-                key: 'Orders',
-                value: userInfo?.totalOrders || 0,
-              })}
-              {iconBox({
-                icon: <FaWallet size={20} />,
-                key: 'Spent',
-                value: userInfo?.totalCost || 0,
-              })}
-            </>
-          ) : (
-            <h1 className='text-center col-span-2 font-semibold'>
-              Please Login
-            </h1>
-          )}
-        </div>
+        {role !== 'admin' && (
+          <div className='p-3 bg-primary-50 rounded-xl mt-8 grid grid-cols-2'>
+            {userInfo ? (
+              <>
+                {iconBox({
+                  icon: <FaBox size={20} />,
+                  key: 'Orders',
+                  value: userInfo?.totalOrders || 0,
+                })}
+                {iconBox({
+                  icon: <FaWallet size={20} />,
+                  key: 'Spent',
+                  value: userInfo?.totalCost || 0,
+                })}
+              </>
+            ) : (
+              <h1 className='text-center col-span-2 font-semibold'>
+                Please Login
+              </h1>
+            )}
+          </div>
+        )}
       </div>
       {/* orders */}
 
