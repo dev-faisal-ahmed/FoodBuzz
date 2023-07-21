@@ -6,13 +6,14 @@ import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/firebase.init';
 import { postReq } from '@/helper/apiReq';
 import { useRouter } from 'next/navigation';
+import { setUserInfoLocal } from '@/helper/localStorage';
 
 export function GoogleAuth() {
   const [signInWithGoogle, _, __, error] = useSignInWithGoogle(auth);
   const route = useRouter();
 
   async function handleLogin() {
-    const toastId = toast.loading('Wait...👀');
+    const toastId = toast.loading('Wait... 👀');
 
     signInWithGoogle().then((userCredential) => {
       if (userCredential?.user?.email) {
@@ -28,6 +29,12 @@ export function GoogleAuth() {
             console.log(res);
             if (res.okay) {
               toast.success(res.msg, toastConfig);
+              setUserInfoLocal({
+                email: userCredential.user.email,
+                name: userCredential.user.displayName,
+                role: res?.data?.role,
+                image: userCredential.user.photoURL,
+              });
               route.push('/');
             } else {
               toast.error(res.msg, toastConfig);
