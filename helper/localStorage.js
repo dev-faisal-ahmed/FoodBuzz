@@ -16,9 +16,14 @@ export function setUserInfoLocal({ email, image, role, name }) {
 }
 
 export function getUserInfoLocal() {
-  const data = localStorage.getItem('user-info');
-  const { email, image, role, name } = JSON.parse(data);
-  return { email, image, role, name };
+  let data = localStorage.getItem('user-info');
+  data = JSON.parse(data);
+  return {
+    email: data?.email,
+    image: data?.image,
+    role: data?.role,
+    name: data?.name,
+  };
 }
 
 export function deleteUserInfoFromLocal() {

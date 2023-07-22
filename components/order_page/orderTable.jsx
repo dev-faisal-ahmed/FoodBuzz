@@ -25,7 +25,7 @@ export function OrderTable({ orders }) {
           status={order.status}
           pickUpAddress={order.pickUpAddress}
           price={order.price}
-          date={order.date}
+          date={order.dateFormate}
           time={order.time}
           className={gridClass}
         />
