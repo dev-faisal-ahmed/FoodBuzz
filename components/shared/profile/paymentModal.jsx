@@ -6,20 +6,19 @@ import { Input } from '../input/input';
 import { textBox } from '@/helper/uiHelper';
 import { cartContext, cartActions } from '@/context_provider/cartProvider';
 import { postReq } from '@/helper/apiReq';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/firebase/firebase.init';
 import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
 import { Loader } from '../loader/loader';
 import { useRouter } from 'next/navigation';
 import { useGetUser } from '@/hooks/useGetUser';
+import { getUserInfoLocal } from '@/helper/localStorage';
 
 export function PaymentModal() {
-  const [user] = useAuthState(auth);
+  const { email } = getUserInfoLocal();
   const { openPaymentModal, onClosePaymentModal } = useContext(modalContext);
   const { cartData, updateCart } = useContext(cartContext);
   const [loading, setLoading] = useState(false);
-  const { refetch } = useGetUser(user?.email);
+  const { refetch } = useGetUser(email);
 
   function handlePayment(e) {
     setLoading(true);
@@ -29,7 +28,7 @@ export function PaymentModal() {
 
     fetch(
       '/api/order-food',
-      postReq({ address, cartData, email: user?.email, pickUpAddress: address })
+      postReq({ address, cartData, email, pickUpAddress: address })
     )
       .then((res) => res.json())
       .then((res) => {

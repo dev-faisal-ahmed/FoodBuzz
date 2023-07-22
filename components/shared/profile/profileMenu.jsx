@@ -1,14 +1,15 @@
 'use client';
 import { auth } from '@/firebase/firebase.init';
-import { useAuthState, useSignOut } from 'react-firebase-hooks/auth';
+import { useSignOut } from 'react-firebase-hooks/auth';
 import { ProfileIcon } from '../profileIcon';
 import { FiLogOut } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
 import Link from 'next/link';
+import { getUserInfoLocal } from '@/helper/localStorage';
 
 export function ProfileMenu() {
-  const [user] = useAuthState(auth);
+  const { email, image, name } = getUserInfoLocal();
   const [signOut] = useSignOut(auth);
 
   function handleLogout() {
@@ -18,13 +19,13 @@ export function ProfileMenu() {
   return (
     <div className='bg-white p-5 rounded-lg shadow-md min-w-[150px]'>
       <div className='flex flex-col gap-3'>
-        {user ? (
+        {email ? (
           <>
             <div className='center-y gap-3 border-b hoverMenu rounded-lg p-2'>
-              <ProfileIcon image={user.photoURL} />
+              <ProfileIcon image={image} />
               <div>
-                <h1 className='font-semibold'>{user.displayName}</h1>
-                <p className='text-gray-500 text-xs'>{user.email}</p>
+                <h1 className='font-semibold'>{name}</h1>
+                <p className='text-gray-500 text-xs'>{email}</p>
               </div>
             </div>
             <button

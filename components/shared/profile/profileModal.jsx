@@ -3,7 +3,7 @@ import { modalContext } from '@/context_provider/modalProvider';
 import { useContext, useEffect, useState } from 'react';
 import { Modal } from '../modal';
 import { ProfileIcon } from '../profileIcon';
-import { useAuthState, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { useUpdateProfile } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/firebase.init';
 import { Input } from '../input/input';
 import { Loader } from '../loader/loader';
@@ -11,18 +11,15 @@ import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
 import { postReq } from '@/helper/apiReq';
 import { useGetUser } from '@/hooks/useGetUser';
+import { getUserInfoLocal } from '@/helper/localStorage';
 
 export function ProfileModal() {
   const { openProfileModal, onCloseProfileModal } = useContext(modalContext);
-  const [user] = useAuthState(auth);
-  const { refetch } = useGetUser(user?.email);
+  const { email, image } = getUserInfoLocal();
+  const { refetch } = useGetUser(email);
   const [updateProfile, updating, error] = useUpdateProfile(auth);
-  const [imageUrl, setImageUrl] = useState(user?.photoURL);
+  const [imageUrl, setImageUrl] = useState(image);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setImageUrl(user?.photoURL);
-  }, [user]);
 
   const onChangeImageInput = (e) => setImageUrl(e.target.value);
 
@@ -32,7 +29,7 @@ export function ProfileModal() {
     const address = e.target.address.value;
 
     // update user photo on firebase
-    if (user?.photoURL !== imageUrl && imageUrl) {
+    if (image !== imageUrl && imageUrl) {
       const updated = await updateProfile({ photoURL: imageUrl });
       if (updated) toast.success('Photo updated', toastConfig);
     }
@@ -41,7 +38,7 @@ export function ProfileModal() {
     if (address.trim() !== '')
       fetch(
         '/api/edit-profile',
-        postReq({ email: user?.email, address: address.trim() })
+        postReq({ email, address: address.trim() })
       ).then((res) =>
         res.json().then((res) => {
           if (res.okay) toast.success(res.msg, toastConfig);
@@ -62,7 +59,7 @@ export function ProfileModal() {
       title={'Edit Profile'}
       width={'500px'}
     >
-      {user ? (
+      {email ? (
         <>
           <div className='p-5 rounded-xl border'>
             <ProfileIcon

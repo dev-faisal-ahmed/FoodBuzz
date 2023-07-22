@@ -19,11 +19,11 @@ export function getDateObject(date) {
     'Dec',
   ];
 
-  let hour = date.getHours();
-  const minute = date.getMinutes();
-  const day = date.getDate();
-  const month = months[date.getMonth()];
-  const year = date.getFullYear();
+  let hour = date?.getHours();
+  const minute = date?.getMinutes();
+  const day = date?.getDate();
+  const month = months[date?.getMonth()];
+  const year = date?.getFullYear();
   let meridian = 'AM';
 
   // fixing meridian

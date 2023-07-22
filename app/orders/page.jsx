@@ -1,13 +1,12 @@
 'use client';
 
 import { OrderTable } from '@/components/order_page/orderTable';
-import { auth } from '@/firebase/firebase.init';
+import { getUserInfoLocal } from '@/helper/localStorage';
 import { useGetUser } from '@/hooks/useGetUser';
-import { useAuthState } from 'react-firebase-hooks/auth';
 
 export default function OrderPage() {
-  const [user] = useAuthState(auth);
-  const { userInfo } = useGetUser(user?.email);
+  const { email } = getUserInfoLocal();
+  const { userInfo } = useGetUser(email);
 
   return (
     <section className='mt-5 md:mt-0'>

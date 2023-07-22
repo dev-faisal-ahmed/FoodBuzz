@@ -22,8 +22,9 @@ export async function POST(request) {
     email,
     orderId,
     pickUpAddress,
-    date: dateObject.date,
+    date,
     time: dateObject.time,
+    dateFormate: dateObject.date,
   };
 
   const docStatus = await orderCollection.insertOne(orderInfo);

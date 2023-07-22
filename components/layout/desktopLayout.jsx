@@ -4,12 +4,11 @@ import { Navbar } from '../shared/navbar/navbar';
 import { Profile } from '../shared/profile/profile';
 import { ProfileIcon } from '../shared/profileIcon';
 import { Search } from '../shared/search';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/firebase/firebase.init';
 import { useEffect, useRef, useState } from 'react';
+import { getUserInfoLocal } from '@/helper/localStorage';
 
 export function DesktopLayout({ font, children }) {
-  const [user] = useAuthState(auth);
+  const { email, image, name } = getUserInfoLocal();
   const [showProfile, setShowProfile] = useState(false);
 
   const profileDiv = useRef(null);
@@ -43,11 +42,7 @@ export function DesktopLayout({ font, children }) {
               onClick={() => setShowProfile(true)}
               className='xl:hidden block cursor-pointer'
             >
-              <ProfileIcon
-                image={user?.photoURL}
-                name={user?.displayName}
-                bgColor={'white'}
-              />
+              <ProfileIcon image={image} name={name} bgColor={'white'} />
             </div>
           </div>
         </div>
