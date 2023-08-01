@@ -2,26 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-.scrollbar-hidden::-webkit-scrollbar {
-  width: 0px;
-}
-
-/* Hide scrollbar for all browsers */
-* {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-.scrollbar {
-  scrollbar-width: 5px;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.scrollbar::-webkit-scrollbar {
-  width: 0px;
+::-webkit-scrollbar-thumb {
+  background-color: rgb(209, 206, 206);
+  border-radius: 10px;
 }
 
 .modal {
