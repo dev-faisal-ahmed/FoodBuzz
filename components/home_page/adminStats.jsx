@@ -1,8 +1,8 @@
 import { useGetStats } from '@/hooks/useGetStats';
 import colors from 'tailwindcss/colors';
+
 export function AdminStats() {
   const { stat } = useGetStats();
-
   console.log(stat);
   return (
     <section className='grid grid-cols-3 gap-8'>
@@ -11,27 +11,27 @@ export function AdminStats() {
         title: 'Total Revenue',
         value: '$ ' + stat.totalRevenue,
         color: colors.white,
-        ratio:
+        ratio: (
           (stat.currentMonthRevenue /
             (stat.previousMonthRevenue || stat.currentMonthRevenue)) *
-          100,
+          100
+        ).toFixed(2),
       })}
       {iconBox({
         title: 'Total Orders',
         value: stat.totalOrders,
         color: colors.blue[500],
-        ratio:
+        ratio: (
           (stat.currentMonthOrders /
             (stat.previousMonthOrders + stat.currentMonthOrders)) *
-          100,
+          100
+        ).toFixed(2),
       })}
       {iconBox({
         title: 'Completed Orders',
         value: stat.completedOrders,
         color: colors.green[500],
-        ratio:
-          stat.completedOrders / (stat.pendingOrders + stat.completedOrders) ||
-          0 * 100,
+        ratio: ((stat.completedOrders / stat.totalOrders) * 100).toFixed(2),
       })}
     </section>
   );
