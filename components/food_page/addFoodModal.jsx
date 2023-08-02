@@ -1,15 +1,20 @@
 'use client';
 import Image from 'next/image';
 import { IoMdClose } from 'react-icons/io';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { Modal } from '../shared/modal';
 import { modalContext } from '@/context_provider/modalProvider';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { Input } from '../shared/input/input';
+import { toast } from 'react-hot-toast';
+import { toastConfig } from '@/helper/toastConfig';
+import { postReq } from '@/helper/apiReq';
+import { useGetFoods } from '@/hooks/useGetFoods';
 
 export function AddFoodModal() {
   const { openAddFoodModal, onCloseAddFoodModal } = useContext(modalContext);
   const [image, setImage] = useState(null);
+  const { foodRefetch } = useGetFoods();
 
   function onImageChange(event) {
     const images = event.target.files[0];
@@ -21,6 +26,65 @@ export function AddFoodModal() {
     setImage(null);
   }
 
+  function onAddFood(event) {
+    event.preventDefault();
+    const form = event.target;
+    const foodName = form.foodName.value.trim();
+    const price = +form.price.value; // converting price into a number
+    const category = form.category.value.trim().toLowerCase();
+    const description = form.description.value.trim();
+
+    if (foodName === '' || !price || category === '' || description === '') {
+      toast.error('Please fill up the form properly', toastConfig);
+      return;
+    }
+
+    const image = form.imageInput.files[0];
+    if (!image) {
+      toast.error('Please select the image', toastConfig);
+      return;
+    }
+    const loadingToast = toast.loading('Adding a new food...');
+    // uploading the image to the cloud
+    const data = new FormData();
+    data.append('file', image);
+    data.append('upload_preset', 'food-buzz');
+    data.append('cloud_name', process.env.NEXT_PUBLIC_CLOUD_NAME);
+
+    const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/`;
+    let imageUrl;
+    fetch(url, { method: 'POST', body: data })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.secure_url) {
+          imageUrl = res.secure_url;
+
+          const foodData = {
+            foodName,
+            price,
+            category,
+            description,
+            imageUrl,
+          };
+
+          fetch('api/add-food', postReq({ ...foodData }))
+            .then((res) => res.json())
+            .then((res) => {
+              if (res.okay) {
+                toast.success(res.msg, toastConfig);
+                form.reset();
+                setImage(null);
+                toast.dismiss(loadingToast);
+                foodRefetch();
+              } else toast.error(res.msg, toastConfig);
+              onCloseAddFoodModal();
+            });
+        } else {
+          toast.error('Could not upload your image');
+        }
+      });
+  }
+
   return (
     <Modal
       title={'Add New Food'}
@@ -28,7 +92,7 @@ export function AddFoodModal() {
       onCloseModal={onCloseAddFoodModal}
       width={500}
     >
-      <form>
+      <form onSubmit={onAddFood}>
         <label htmlFor='imageInput'>
           <div
             className={`h-[200px] center-xy flex-col gap-5 cursor-pointer ${
@@ -94,19 +158,15 @@ export function AddFoodModal() {
           </label>
           <textarea
             id='description'
-            className='border rounded-md -mt-1'
+            className='border rounded-md -mt-1 px-3 py-2 outline-primary-300'
             name='description'
             rows='3'
           />
         </div>
-        <div className='w-fit ml-auto center-y gap-5 mt-5'>
-          <p className='button bg-red-500 text-white font-semibold rounded-md cursor-pointer hover:bg-red-600'>
-            Clear All
-          </p>
-          <button className='button bg-green-500 rounded-md text-white font-semibold hover:bg-green-600'>
-            Submit
-          </button>
-        </div>
+
+        <button className='block button bg-green-500 rounded-md text-white font-semibold hover:bg-green-600 mt-5 ml-auto'>
+          Submit
+        </button>
       </form>
     </Modal>
   );
