@@ -24,7 +24,9 @@ export function Modal({ children, openModal, onCloseModal, title, width }) {
               <VscClose size={15} />
             </button>
           </header>
-          <main className='py-4 h-full overflow-y-auto'>{children}</main>
+          <main className='pt-4 h-full overflow-y-auto no-scrollbar'>
+            {children}
+          </main>
         </section>
       </section>
     )

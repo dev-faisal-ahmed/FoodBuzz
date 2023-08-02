@@ -2,7 +2,7 @@
 
 export function Input({ title, placeholder, type, name, onChange, required }) {
   return (
-    <div>
+    <div className='w-full'>
       <label className='text-gray-500 font-semibold' htmlFor={name}>
         {title}
       </label>
