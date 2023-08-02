@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import { ProfileModal } from '@/components/shared/profile/profileModal';
 import { QueryProvider } from '@/context_provider/queryProvider';
 import { PaymentModal } from '@/components/shared/profile/paymentModal';
+import { AddFoodModal } from '@/components/food_page/addFoodModal';
 
 const font = Poppins({ subsets: ['latin'], weight: ['400', '600'] });
 
@@ -21,18 +22,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body>
+        {/* ------------ query provider ------------ */}
         <ClientOnly>
-          {/* query provider */}
           <QueryProvider>
-            {/* context api */}
+            {/* ----- context api ----- */}
             <ModalProvider>
               <CartProvider>
-                {/* toast */}
                 <Toaster />
                 {/* modal */}
                 <CartModal />
                 <ProfileModal />
                 <PaymentModal />
+                <AddFoodModal />
                 {/* layout */}
                 <LayoutProvider font={font}>{children}</LayoutProvider>
               </CartProvider>
