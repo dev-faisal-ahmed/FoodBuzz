@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { FoodCard } from '../shared/all_foods/foodCard';
-import { foods } from '@/data/fakeData';
+import { useGetFoods } from '@/hooks/useGetFoods';
 
 export function TrendyFoods() {
+  const { foodsData } = useGetFoods();
   return (
     <section className=''>
       {/* link and title */}
@@ -19,13 +20,13 @@ export function TrendyFoods() {
 
       {/* food list */}
       <section className='mt-8 grid 2xl:grid-cols-3 sm:grid-cols-2 gap-8'>
-        {foods.map((food) => (
+        {foodsData?.foods?.map((food) => (
           <FoodCard
             key={food.id}
-            title={food.title}
-            image={food.image}
+            title={food.foodName}
+            image={food.imageUrl}
             price={food.price}
-            id={food.id}
+            id={food.foodId}
           />
         ))}
       </section>

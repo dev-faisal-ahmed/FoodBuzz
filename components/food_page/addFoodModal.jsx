@@ -9,10 +9,12 @@ import { Input } from '../shared/input/input';
 import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
 import { postReq } from '@/helper/apiReq';
+import { useGetFoods } from '@/hooks/useGetFoods';
 
 export function AddFoodModal() {
   const { openAddFoodModal, onCloseAddFoodModal } = useContext(modalContext);
   const [image, setImage] = useState(null);
+  const { foodRefetch } = useGetFoods();
 
   function onImageChange(event) {
     const images = event.target.files[0];
@@ -73,6 +75,7 @@ export function AddFoodModal() {
                 form.reset();
                 setImage(null);
                 toast.dismiss(loadingToast);
+                foodRefetch();
               } else toast.error(res.msg, toastConfig);
               onCloseAddFoodModal();
             });
