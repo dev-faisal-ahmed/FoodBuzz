@@ -51,7 +51,7 @@ export function AdminOrderRow({
             status === 'delivered'
               ? 'bg-green-100 text-green-600'
               : 'bg-orange-100 text-orange-600'
-          } py-1 px-3 rounded-md capitalize font-semibold`}
+          } py-1 px-3 rounded-md capitalize font-semibold text-xs`}
         >
           {status}
         </span>

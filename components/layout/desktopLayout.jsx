@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { getUserInfoLocal } from '@/helper/localStorage';
 
 export function DesktopLayout({ font, children }) {
-  const { email, image, name } = getUserInfoLocal();
+  const { image, name } = getUserInfoLocal();
   const [showProfile, setShowProfile] = useState(false);
 
   const profileDiv = useRef(null);
@@ -57,7 +57,7 @@ export function DesktopLayout({ font, children }) {
           <Profile />
         </div>
 
-        <section className='overflow-y-auto'>{children}</section>
+        <section className='overflow-y-auto no-scrollbar'>{children}</section>
       </section>
       {/* profile bar */}
       <section className='bg-white py-8 xl:block hidden h-[100dvh] overflow-y-auto'>
