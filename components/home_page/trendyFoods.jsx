@@ -6,7 +6,7 @@ import { foods } from '@/data/fakeData';
 
 export function TrendyFoods() {
   return (
-    <section>
+    <section className=''>
       {/* link and title */}
       <div className='flex items-center justify-between mt-8'>
         <h3 className='text-xl font-semibold' htmlFor='category'>

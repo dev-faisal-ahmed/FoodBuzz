@@ -9,7 +9,8 @@ export async function GET(_, context) {
   // collection order information
   const query = user.role === 'admin' ? {} : { email };
   const ordersCursor = orderCollection.find(query);
-  const orders = await ordersCursor.toArray();
+  let orders = await ordersCursor.toArray();
+  if (!orders) orders = [];
 
   const userInfo = {
     address: user.address,
