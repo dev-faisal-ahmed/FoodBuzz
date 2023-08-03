@@ -1,56 +1,72 @@
 'use client';
 import { modalContext } from '@/context_provider/modalProvider';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import { IoCloseSharp } from 'react-icons/io5';
 import { Modal } from '../modal';
 import { ProfileIcon } from '../profileIcon';
-import { useUpdateProfile } from 'react-firebase-hooks/auth';
-import { auth } from '@/firebase/firebase.init';
 import { Input } from '../input/input';
 import { Loader } from '../loader/loader';
 import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
 import { postReq } from '@/helper/apiReq';
 import { useGetUser } from '@/hooks/useGetUser';
-import { getUserInfoLocal } from '@/helper/localStorage';
+import { getUserInfoLocal, setUserInfoLocal } from '@/helper/localStorage';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 
 export function ProfileModal() {
   const { openProfileModal, onCloseProfileModal } = useContext(modalContext);
-  const { email, image } = getUserInfoLocal();
+  const { email, name, imageUrl, role } = getUserInfoLocal();
   const { refetch } = useGetUser(email);
-  const [updateProfile, updating, error] = useUpdateProfile(auth);
-  const [imageUrl, setImageUrl] = useState(image);
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState(null);
+  const imageRef = useRef(null);
 
-  const onChangeImageInput = (e) => setImageUrl(e.target.value);
+  function onImageChange(e) {
+    const images = e.target.files;
+    const imageUrl = URL.createObjectURL(images[0]);
+    setImage(imageUrl);
+  }
 
-  const onProfileUpdate = async (e) => {
+  function onRemoveImage() {
+    setImage(null);
+    imageRef.current.value = null;
+  }
+
+  async function onProfileUpdate(e) {
     setIsLoading(true);
     e.preventDefault();
     const address = e.target.address.value;
+    const targetImage = imageRef.current.files[0];
 
-    // update user photo on firebase
-    if (image !== imageUrl && imageUrl) {
-      const updated = await updateProfile({ photoURL: imageUrl });
-      if (updated) toast.success('Photo updated', toastConfig);
+    if (address.trim() !== '' && targetImage) {
+      const data = new FormData();
+      data.append('file', targetImage);
+      data.append('upload_preset', 'food-buzz');
+      data.append('cloud_name', process.env.NEXT_PUBLIC_CLOUD_NAME);
+      const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/`;
+      let imageUrl;
+      fetch(url, { method: 'POST', body: data })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.secure_url) {
+            imageUrl = res.secure_url;
+            setUserInfoLocal({ name, email, role, image: imageUrl });
+            fetch(
+              '/api/edit-profile',
+              postReq({ email, address: address.trim(), imageUrl })
+            ).then((res) =>
+              res.json().then((res) => {
+                if (res.okay) toast.success(res.msg, toastConfig);
+                else toast.error(res.msg, toastConfig);
+                onCloseProfileModal();
+                setIsLoading(false);
+                refetch();
+              })
+            );
+          } else toast.error('Could not add image', toastConfig);
+        });
     }
-
-    // now storing the address to the database
-    if (address.trim() !== '')
-      fetch(
-        '/api/edit-profile',
-        postReq({ email, address: address.trim() })
-      ).then((res) =>
-        res.json().then((res) => {
-          if (res.okay) toast.success(res.msg, toastConfig);
-          else toast.error(res.msg, toastConfig);
-          onCloseProfileModal();
-          setIsLoading(false);
-          refetch();
-        })
-      );
-  };
-
-  if (error) toast.error(error.message, toastConfig);
+  }
 
   return (
     <Modal
@@ -61,29 +77,52 @@ export function ProfileModal() {
     >
       {email ? (
         <>
-          <div className='p-5 rounded-xl border'>
-            <ProfileIcon
-              image={imageUrl}
-              big={true}
-              size={150}
-              margin={'0 auto'}
-            />
+          <div className='relative h-[200px] rounded-xl border-2 border-dashed p-5'>
+            {image && (
+              <div
+                onClick={onRemoveImage}
+                className='w-fit absolute right-5 bg-gray-300 rounded-full p-1 cursor-pointer'
+              >
+                <IoCloseSharp size={20} />
+              </div>
+            )}
+
+            <label htmlFor='imageUrl'>
+              <div className='center-xy flex-col'>
+                {image ? (
+                  <ProfileIcon
+                    image={image}
+                    big={true}
+                    size={150}
+                    margin={'0 auto'}
+                  />
+                ) : (
+                  <>
+                    <>
+                      <AiOutlineCloudUpload size={100} color='gray' />
+                      <h1>Choose Image To Upload</h1>
+                    </>
+                  </>
+                )}
+              </div>
+            </label>
           </div>
+          <input
+            ref={imageRef}
+            onChange={onImageChange}
+            type='file'
+            id='imageUrl'
+            name='imageUrl'
+            className='hidden'
+          />
           <form onSubmit={onProfileUpdate} className='flex flex-col gap-3 mt-5'>
-            <Input
-              name={'imageUrl'}
-              placeholder={'Input Your Image URL'}
-              title={'Image URL'}
-              type={'string'}
-              onChange={onChangeImageInput}
-            />
             <Input
               name={'address'}
               placeholder={'Input Your Address'}
               title={'Address'}
               type={'string'}
             />
-            {updating || isLoading ? (
+            {isLoading ? (
               <div className='mt-5 block px-8 lg:mx-0 mx-auto bg-gray-500 w-fit rounded-lg'>
                 <Loader />
               </div>

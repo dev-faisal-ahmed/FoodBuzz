@@ -16,6 +16,7 @@ export async function GET(_, context) {
     address: user.address,
     totalCost: user.totalCost,
     totalOrders: user.totalOrders,
+    imageUrl: user.imageUrl,
     role: user.role,
     name: user.name,
     orders: orders.reverse(),
