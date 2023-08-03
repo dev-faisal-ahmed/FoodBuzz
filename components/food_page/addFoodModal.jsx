@@ -97,7 +97,7 @@ export function AddFoodModal() {
           <div
             className={`h-[200px] center-xy flex-col gap-5 cursor-pointer ${
               image ? '' : 'border-2'
-            }  border-dashed rounded-md relative`}
+            }  border-dashed rounded-md`}
           >
             {image ? (
               <Image

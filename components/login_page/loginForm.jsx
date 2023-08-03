@@ -28,18 +28,18 @@ export function LoginForm() {
       fetch(`/api/user-info/${email}`)
         .then((res) => res.json())
         .then((res) => {
-          if (res.okay) {
+          if (res?.okay) {
             setUserInfoLocal({
               email,
-              image: userCredential.user?.photoURL,
+              image: res.data?.imageUrl,
               role: res.data?.role,
               name: res.data?.name,
             });
+            const { name } = getUserInfoLocal();
+            toast.success(`Logged in as ${name}`);
+            router.push('/');
           }
         });
-      const { name } = getUserInfoLocal();
-      toast.success(`Logged in as ${name}`);
-      router.push('/');
     });
   }
 

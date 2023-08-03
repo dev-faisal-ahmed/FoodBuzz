@@ -8,6 +8,7 @@ import { auth } from '@/firebase/firebase.init';
 import { toast } from 'react-hot-toast';
 import { toastConfig } from '@/helper/toastConfig';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   deleteUserInfoFromLocal,
   getUserInfoLocal,
@@ -18,12 +19,14 @@ export function Navbar() {
   const currentLink = usePathname();
   const { email } = getUserInfoLocal();
   const [signOut] = useSignOut(auth);
+  const router = useRouter();
 
   // signing out
   async function handleSignOut() {
     signOut().then(() => {
       toast.success('Sign out user', toastConfig);
       deleteUserInfoFromLocal();
+      router.push('/login');
     });
   }
 
