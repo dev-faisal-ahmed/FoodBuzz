@@ -6,7 +6,6 @@ import { FoodTable } from '../shared/table/foodTable';
 export function AdminFoodPage() {
   const { onOpenAddFoodModal } = useContext(modalContext);
   const { foodsData } = useGetFoods();
-  console.log(foodsData?.foods);
 
   return (
     <>

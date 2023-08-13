@@ -10,6 +10,7 @@ import { ProfileModal } from '@/components/shared/profile/profileModal';
 import { QueryProvider } from '@/context_provider/queryProvider';
 import { PaymentModal } from '@/components/shared/profile/paymentModal';
 import { AddFoodModal } from '@/components/food_page/addFoodModal';
+import { EditFoodModal } from '@/components/shared/table/editFoodModal';
 
 const font = Poppins({ subsets: ['latin'], weight: ['400', '600'] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
                 <ProfileModal />
                 <PaymentModal />
                 <AddFoodModal />
+                <EditFoodModal />
                 {/* layout */}
                 <LayoutProvider font={font}>{children}</LayoutProvider>
               </CartProvider>
