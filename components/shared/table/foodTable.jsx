@@ -12,6 +12,7 @@ export function FoodTable({ foods }) {
           <th className='p-3 whitespace-nowrap'>Price</th>
           <th className='text-left p-3 whitespace-nowrap'>Category</th>
           <th className='p-3 whitespace-nowrap'>Sold</th>
+          <th className='p-3 whitespace-nowrap'>Options</th>
         </tr>
       </thead>
       <tbody>
