@@ -1,25 +1,41 @@
 'use client';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { Modal } from '../modal';
 import { modalContext } from '@/context_provider/modalProvider';
-import { useGetFood } from '@/hooks/useGetFood';
 import Image from 'next/image';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { MdOutlineClose } from 'react-icons/md';
 import { Input } from '../input/input';
 import { LoaderDashed } from '../loaderDashed';
+import { toast } from 'react-hot-toast';
+import { toastConfig } from '@/helper/toastConfig';
+import { postReq } from '@/helper/apiReq';
+import { useGetFoods } from '@/hooks/useGetFoods';
+import { Loader } from '../loader/loader';
 
 export function EditFoodModal() {
   const { openEditFoodModal, onCloseEditFoodModal, modalFoodId } =
     useContext(modalContext);
-  const { foodInfo, refetch, loading } = useGetFood(modalFoodId);
+  const { foodRefetch } = useGetFoods();
+  const [foodInfo, setFoodInfo] = useState({});
   const [editImage, setEditImage] = useState(false);
   const [editName, setEditName] = useState(false);
   const [editPrice, setEditPrice] = useState(false);
   const [image, setImage] = useState(null);
-  const imageRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const imageRef = useRef();
   const size = 200;
+
+  useEffect(() => {
+    if (modalFoodId) {
+      fetch(`/api/get-food/${modalFoodId}`)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res?.okay) setFoodInfo(res.data);
+        });
+    }
+  }, [modalFoodId]);
 
   function handleModalClose() {
     onCloseEditFoodModal();
@@ -44,6 +60,62 @@ export function EditFoodModal() {
     setImage(imageObject);
   }
 
+  function postData(foodData, toastId) {
+    fetch('/api/edit-food', postReq({ ...foodData }))
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.okay) {
+          toast.success(res.msg, toastConfig);
+        } else {
+          toast.error(res.msg, toastConfig);
+        }
+        toast.dismiss(toastId);
+        foodRefetch();
+        setLoading(false);
+        handleModalClose();
+      });
+  }
+
+  function onSubmitForm(event) {
+    setLoading(true);
+    event.preventDefault();
+    const toastId = toast.loading('Updating Food Info');
+    const form = event.target;
+    const foodName = form.foodName?.value;
+    const price = form.price?.value;
+    const foodData = {
+      foodName: foodName || foodInfo?.foodName,
+      price: price || foodInfo?.price,
+      foodId: modalFoodId,
+      imageUrl: foodInfo?.imageUrl,
+    };
+    const targetImage = imageRef.current.files[0];
+
+    if (targetImage) {
+      console.log('image found');
+      const data = new FormData();
+      data.append('file', targetImage);
+      data.append('upload_preset', 'food-buzz');
+      data.append('cloud_name', process.env.NEXT_PUBLIC_CLOUD_NAME);
+
+      const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/`;
+      let imageUrl;
+      fetch(url, { method: 'POST', body: data })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log('image uploaded', res);
+          if (res.secure_url) {
+            imageUrl = res.secure_url;
+            foodData.imageUrl = imageUrl;
+            postData(foodData, toastId);
+            return;
+          }
+        });
+    } else {
+      postData(foodData, toastId);
+    }
+  }
+
   return (
     <Modal
       title={'Edit Food'}
@@ -52,46 +124,46 @@ export function EditFoodModal() {
       width={'500px'}
     >
       {Object.keys(foodInfo).length !== 0 ? (
-        <form>
+        <form onSubmit={onSubmitForm}>
           <div className='relative border-2 border-dashed rounded-md p-3'>
             {editImage ? (
               <>
-                {image ? (
-                  <div style={{ height: size + 'px' }}>
-                    <Image
-                      style={{
-                        width: size,
-                        height: size,
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                        borderRadius: '50%',
-                        margin: '0 auto',
-                      }}
-                      src={image}
-                      height={size}
-                      width={size}
-                      alt=''
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <label
-                      className='flex flex-col items-center justify-center'
-                      htmlFor='foodImage'
-                    >
+                <label
+                  className='flex flex-col items-center justify-center'
+                  htmlFor='foodImage'
+                >
+                  {image ? (
+                    <div style={{ height: size + 'px' }}>
+                      <Image
+                        style={{
+                          width: size,
+                          height: size,
+                          objectFit: 'cover',
+                          objectPosition: 'center',
+                          borderRadius: '50%',
+                          margin: '0 auto',
+                        }}
+                        src={image}
+                        height={size}
+                        width={size}
+                        alt=''
+                      />
+                    </div>
+                  ) : (
+                    <>
                       <AiOutlineCloudUpload size={100} color='gray' />
                       <h1>Choose Image To Upload</h1>
-                    </label>
-                    <input
-                      onChange={onChangeImage}
-                      ref={imageRef}
-                      name='foodImage'
-                      className='hidden'
-                      id='foodImage'
-                      type='file'
-                    />
-                  </>
-                )}
+                    </>
+                  )}
+                </label>
+                <input
+                  ref={imageRef}
+                  name='foodImage'
+                  onChange={onChangeImage}
+                  type='file'
+                  className='hidden'
+                  id='foodImage'
+                />
               </>
             ) : (
               <Image
@@ -133,6 +205,7 @@ export function EditFoodModal() {
               <Input
                 type={'text'}
                 title={'Food Name'}
+                name={'foodName'}
                 placeholder={'Enter Food Name'}
               />
             ) : (
@@ -151,6 +224,7 @@ export function EditFoodModal() {
               <Input
                 type={'text'}
                 title={'Price'}
+                name={'price'}
                 placeholder={'Enter Price'}
               />
             ) : (
@@ -166,9 +240,19 @@ export function EditFoodModal() {
             )}
           </div>
           {(editImage || editName || editPrice) && (
-            <button className='button px-8 font-semibold bg-primary-500 text-white rounded-md hover:bg-primary-600 block mx-auto w-fit mt-3'>
-              Submit
-            </button>
+            <>
+              {loading ? (
+                <>
+                  <p className='button px-8 font-semibold bg-primary-500 text-white rounded-md hover:bg-primary-600 block mx-auto w-fit mt-3'>
+                    <Loader className={'w-fit mx-auto'} />
+                  </p>
+                </>
+              ) : (
+                <button className='button px-8 font-semibold bg-primary-500 text-white rounded-md hover:bg-primary-600 block mx-auto w-fit mt-3'>
+                  Submit
+                </button>
+              )}
+            </>
           )}
         </form>
       ) : (
