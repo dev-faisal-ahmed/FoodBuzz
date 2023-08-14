@@ -1,8 +1,11 @@
 import { useGetStats } from '@/hooks/useGetStats';
 import colors from 'tailwindcss/colors';
+import { LoaderDashed } from '../shared/loaderDashed';
 
 export function AdminStats() {
-  const { stat } = useGetStats();
+  const { stat, loading } = useGetStats();
+
+  if (loading) return <LoaderDashed />;
 
   return (
     <section className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-8'>

@@ -1,5 +1,9 @@
 import { getDateObject, idGenerator } from '@/helper/serverHelper';
-import { orderCollection, userCollection } from '@/lib/mongoClient';
+import {
+  foodsCollection,
+  orderCollection,
+  userCollection,
+} from '@/lib/mongoClient';
 import { NextResponse } from 'next/server';
 
 export async function POST(request) {
@@ -9,8 +13,14 @@ export async function POST(request) {
   const date = new Date();
   const dateObject = getDateObject(date);
 
-  cartList.forEach((cart) => {
+  cartList.forEach(async (cart) => {
     orderTitle += `${cart.count} ${cart.title} `;
+    // update sold count
+    await foodsCollection.updateOne(
+      { foodId: cart.id },
+      { $inc: { sold: cart.count } },
+      { upsert: true }
+    );
   });
 
   const orderId = idGenerator(date.getTime());
